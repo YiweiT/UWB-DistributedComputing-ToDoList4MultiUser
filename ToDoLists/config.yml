@@ -1,0 +1,4 @@
+logging:
+  level: INFO
+  loggers:
+    edu.uwb.css533: DEBUG
