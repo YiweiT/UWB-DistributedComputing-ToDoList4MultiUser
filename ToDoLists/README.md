@@ -10,4 +10,24 @@ How to start the ToDoLists application
 Health Check
 ---
 
-To see your applications health enter url `http://localhost:8081/healthcheck`
+To see your applications health enter url `http://localhost:8081/users/healthcheck`
+
+Database Connection Check
+---
+
+To see your applications database connection, enter url `http://localhost:8081/users/dbConnectionCheck`
+
+Add a new user to the db
+---
+
+To add a new user to the db, enter url `http://localhost:8081/users/addUser?usename=<username>&password=<password>`
+
+Log in a user 
+---
+
+To log in, enter url `http://localhost:8081/users/logIn?usename=<username>&password=<password>`
+
+Reset password
+---
+
+To reset password, enter url `http://localhost:8081/users/resetPassword?usename=<username>&oldPassword=<oldPassword>&newPassword=<newPassword>`
