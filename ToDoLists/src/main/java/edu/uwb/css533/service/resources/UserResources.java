@@ -3,6 +3,7 @@ package edu.uwb.css533.service.resources;
 
 
 import edu.uwb.css533.service.db.DatabaseConnection;
+import edu.uwb.css533.service.db.UserServiceDB;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -15,10 +16,10 @@ import java.util.Date;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResources {
 
-    DatabaseConnection dbConnection;
+    UserServiceDB dbConnection;
 
     public UserResources() {
-        this.dbConnection = new DatabaseConnection();
+        this.dbConnection = new UserServiceDB();
     }
 
     @GET
