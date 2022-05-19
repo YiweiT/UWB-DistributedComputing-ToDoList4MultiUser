@@ -2,6 +2,7 @@ package edu.uwb.css533.service.resources;
 
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.uwb.css533.service.db.DatabaseConnection;
 import edu.uwb.css533.service.db.UserServiceDB;
 
@@ -9,6 +10,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Date;
+import java.util.List;
 
 
 // http://server:port/path?para=something
@@ -46,8 +48,10 @@ public class UserResources {
         return Response.ok(msg).build();
     }
 
+
     @POST
     @Path("/addUser")
+    @Consumes(MediaType.APPLICATION_JSON)
     /**
      * path:/users/addUser?username=user1&password=password
      * add the given username and password in Users table
@@ -59,6 +63,8 @@ public class UserResources {
     public Response addUser(@QueryParam("username") String username,
                             @QueryParam("password") String password) {
 
+//        String username = users.getUsername();
+//        String password = users.getPassword();
         // valid username non empty or null
         if (!isValid(username)) {
             return Response.status(Response.Status.BAD_REQUEST)

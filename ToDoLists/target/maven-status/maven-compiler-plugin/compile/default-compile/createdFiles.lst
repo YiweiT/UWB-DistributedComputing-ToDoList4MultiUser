@@ -1,5 +1,6 @@
+edu\uwb\css533\service\ToDoListsApplication.class
 edu\uwb\css533\service\ToDoListsConfiguration.class
 edu\uwb\css533\service\resources\UserResources.class
+edu\uwb\css533\service\resources\User.class
 edu\uwb\css533\service\db\DatabaseConnection.class
-edu\uwb\css533\service\ToDoListsApplication.class
 edu\uwb\css533\service\db\UserServiceDB.class
