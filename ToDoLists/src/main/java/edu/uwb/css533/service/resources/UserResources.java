@@ -60,11 +60,12 @@ public class UserResources {
      *      - both parameter should be non empty or null
      *      - username is not duplicated in Users table
      */
-    public Response addUser(@QueryParam("username") String username,
-                            @QueryParam("password") String password) {
+    public Response addUser(User user
+            /*@QueryParam("username") String username,
+                            @QueryParam("password") String password*/) {
 
-//        String username = users.getUsername();
-//        String password = users.getPassword();
+        String username = user.getUsername();
+        String password = user.getPassword();
         // valid username non empty or null
         if (!isValid(username)) {
             return Response.status(Response.Status.BAD_REQUEST)

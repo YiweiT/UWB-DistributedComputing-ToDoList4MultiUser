@@ -1,6 +1,7 @@
 package edu.uwb.css533.service.resources;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
@@ -9,9 +10,9 @@ public class User {
 
     public String password;
 
-    @JsonCreator
+
     public User(@JsonProperty("username") String username,
-                @JsonProperty("username") String password) {
+                @JsonProperty("password") String password) {
         this.username = username;
         this.password = password;
     }
@@ -19,7 +20,7 @@ public class User {
     public User() {
     }
 
-    @JsonProperty("username")
+    @JsonGetter("username")
     public String getUsername() {
         return username;
     }
@@ -28,7 +29,7 @@ public class User {
         this.username = username;
     }
 
-    @JsonProperty("password")
+    @JsonGetter("password")
     public String getPassword() {
         return password;
     }
