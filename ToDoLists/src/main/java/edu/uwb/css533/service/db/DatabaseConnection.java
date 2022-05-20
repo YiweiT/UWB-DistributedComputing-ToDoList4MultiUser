@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class DatabaseConnection {
 
-    public String url = "jdbc:postgresql://localhost:5432/testdb";
+    public String url = "jdbc:postgresql://localhost:5432/todolistdb";
     private String username = "postgres";
     private String password = "password";
     private int connectionTries = 3;

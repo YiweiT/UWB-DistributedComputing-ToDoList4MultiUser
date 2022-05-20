@@ -38,8 +38,8 @@ public class UserResources {
 
     @GET
     @Path("/getAllUsernames")
-    public Response getAllUsernames() {
-        String msg = dbConnection.getAllUsernames();
+    public Response getAllUsernames(@QueryParam("listid") String listId) {
+        String msg = dbConnection.getAllUsernames(listId);
         if (msg.contains("Error")) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(msg)

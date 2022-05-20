@@ -1,8 +1,12 @@
 package edu.uwb.css533.service.db;
 
+
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserServiceDB extends DatabaseConnection {
 
@@ -49,19 +53,20 @@ public class UserServiceDB extends DatabaseConnection {
         }
     }
 
-    public String getAllUsernames(){
+    public String getAllUsernames(String listid){
         if (isConnected()) {
 
-            String sql = "SELECT USERNAME FROM USERS_INFO ORDER BY USERNAME;";
+            String sql = "SELECT USERNAME FROM USERS_INFO WHERE ?=ANY(LISTIDS);";
             try {
                 PreparedStatement stmt = connection.prepareStatement(sql);
+                stmt.setString(1, listid);
                 ResultSet rs = stmt.executeQuery();
 
-                String res = "";
+                List<String> users = new ArrayList<>();
                 while (rs.next()) {
-                    res += rs.getString("username") + "\n";
+                    users.add(rs.getString("username"));
                 }
-                return res;
+                return users.toString();
             } catch (SQLException e) {
                 e.printStackTrace();
                 return "Error: " + e.getMessage();
