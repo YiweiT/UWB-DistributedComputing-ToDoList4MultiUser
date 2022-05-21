@@ -109,6 +109,7 @@ public class Client {
                 response.append(responseLine.trim());
             }
             System.out.println(response.toString());
+            connection.disconnect();
             return connection.getResponseCode();
 
         } catch (MalformedURLException e) {
@@ -127,8 +128,23 @@ public class Client {
         System.out.println("Welcome to to-do list.");
         BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
         Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter \"-help\" to see all the commands.");
+
+        String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
         while(!loggedIn) {
            userService(scanner);
+        }
+        System.out.println("Enter a command to proceed.");
+        while (!command.contains("quit")) {
+            if (command.equals("-help")) {
+                // show all commands
+            } else if (command.equals("-changepassword")) {
+                // change password
+                String request = url + "/users/changePassword?";
+                String params = changePassword(scanner);
+
+            }
         }
     }
 
@@ -167,7 +183,7 @@ public class Client {
 
         }
     }
-    public static String loginInput(Scanner inputReader) throws IOException {
+    private static String loginInput(Scanner inputReader) throws IOException {
         String username;
         String password;
 
@@ -180,7 +196,7 @@ public class Client {
         return String.format("username=%s&password=%s", username, password);
     }
 
-    public static String signUp (Scanner inputReader) throws IOException {
+    private static String signUp (Scanner inputReader) throws IOException {
         String username;
         String password;
 
@@ -202,13 +218,18 @@ public class Client {
 
         return user.toString();
     }
-//    public static String resetPassword(Scanner inputReader) {
-//        String username;
-//        String oldassword;
-//
-//        System.out.print("Enter username: ");
-//        username = inputReader.nextLine().trim();
-//        System.out.print("Enter password: ");
-//        password = inputReader.next().trim();
-//    }
+
+    private static String changePassword(Scanner inputReader) {
+        String username;
+        String oldPassword;
+        String newPassword;
+
+        System.out.print("Enter username: ");
+        username = inputReader.nextLine().trim();
+        System.out.print("Enter the old password: ");
+        oldPassword = inputReader.next().trim();
+        System.out.print("Enter the new password: ");
+        newPassword = inputReader.next().trim();
+        return String.format("");
+    }
 }

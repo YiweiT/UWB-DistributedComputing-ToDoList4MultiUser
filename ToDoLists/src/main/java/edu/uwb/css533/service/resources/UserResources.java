@@ -129,8 +129,8 @@ public class UserResources {
     }
 
     @PUT
-    @Path("/resetPassword")
-    public Response resetPassword (@QueryParam("username") String username,
+    @Path("/changePassword")
+    public Response changePassword (@QueryParam("username") String username,
                                    @QueryParam("oldPassword") String oldPassword,
                                    @QueryParam("newPassword") String newPassword) {
         // validate username and passwordss
@@ -155,7 +155,7 @@ public class UserResources {
                     .build();
         }
 
-        String msg = dbConnection.resetPassword(username, oldPassword, newPassword);
+        String msg = dbConnection.changePassword(username, oldPassword, newPassword);
         if (msg.contains("Error")) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(msg)

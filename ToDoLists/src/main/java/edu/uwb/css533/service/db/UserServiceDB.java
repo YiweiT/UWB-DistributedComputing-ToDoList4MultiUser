@@ -114,7 +114,7 @@ public class UserServiceDB extends DatabaseConnection {
 
     }
 
-    public String resetPassword (String username, String oldPassword, String newPassword) {
+    public String changePassword (String username, String oldPassword, String newPassword) {
         if (isConnected()) {
             String res;
             // check (username, oldPassword) existence in Users_info table
