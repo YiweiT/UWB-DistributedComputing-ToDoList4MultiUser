@@ -1,5 +1,6 @@
 package edu.uwb.css533.service;
 
+import edu.uwb.css533.service.resources.ListResource;
 import edu.uwb.css533.service.resources.UserResources;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
@@ -27,6 +28,7 @@ public class ToDoListsApplication extends Application<ToDoListsConfiguration> {
         // TODO: implement application
         UserResources userResources = new UserResources();
         environment.jersey().register(userResources);
+        environment.jersey().register(new ListResource());
     }
 
 }

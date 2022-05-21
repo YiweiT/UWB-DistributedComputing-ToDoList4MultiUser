@@ -36,17 +36,7 @@ public class UserResources {
         dbConnection.connect();
     }
 
-    @GET
-    @Path("/getAllUsernames")
-    public Response getAllUsernames(@QueryParam("listid") String listId) {
-        String msg = dbConnection.getAllUsernames(listId);
-        if (msg.contains("Error")) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(msg)
-                    .build();
-        }
-        return Response.ok(msg).build();
-    }
+
 
 
     @POST

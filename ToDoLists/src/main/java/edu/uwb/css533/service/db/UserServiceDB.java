@@ -53,29 +53,7 @@ public class UserServiceDB extends DatabaseConnection {
         }
     }
 
-    public String getAllUsernames(String listid){
-        if (isConnected()) {
 
-            String sql = "SELECT USERNAME FROM USERS_INFO WHERE ?=ANY(LISTIDS);";
-            try {
-                PreparedStatement stmt = connection.prepareStatement(sql);
-                stmt.setString(1, listid);
-                ResultSet rs = stmt.executeQuery();
-
-                List<String> users = new ArrayList<>();
-                while (rs.next()) {
-                    users.add(rs.getString("username"));
-                }
-                return users.toString();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return "Error: " + e.getMessage();
-            }
-        } else {
-
-            return "Error: Unable to connect " + url;
-        }
-    }
 
     /**
      * 1. Search (username, password) pair in Users_info table and count the occurance

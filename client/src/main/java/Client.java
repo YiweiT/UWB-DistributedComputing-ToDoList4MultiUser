@@ -58,29 +58,39 @@ public class Client {
         }
     }
 
-    private static int doPost(String url, String payload) {
+    private static int doPut(String link, String payload) {
+        HttpURLConnection connection = null;
         try {
-            HttpClient client = HttpClient.newBuilder()
-                    .version(HttpClient.Version.HTTP_1_1)
-                    .connectTimeout(Duration.ofSeconds(20))
-                    .followRedirects(HttpClient.Redirect.NORMAL)
-                    .build();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .POST(HttpRequest.BodyPublishers.ofString(payload))
-                    .uri(URI.create(url))
-                    .build();
-            HttpResponse<String>  response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            // create connection
+            URL url = new URL(link);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty("Content-Type",
+                    "application/json; charset=UTF-8");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+            OutputStream os = connection.getOutputStream();
+//            byte[] input = payload.getBytes("utf-8");
+            os.write(payload.getBytes(StandardCharsets.UTF_8));
 
-            System.out.println(response.body());
-            return response.statusCode();
+            // read the response from input stream
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream(), "utf-8"));
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+            System.out.println(response.toString());
+            connection.disconnect();
+            return connection.getResponseCode();
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            System.out.println("Malformed URL Exception: " + e.getMessage());
+            return -1;
         } catch (IOException e) {
             System.out.println("IO Exceptions: " + e.getMessage());
-            return -1;
-        } catch (InterruptedException e) {
-            System.out.println("Interrupted: " + e.getMessage());
-            return -1;
-        } catch (Exception e) {
-            System.out.println("Unknown Exceptions: " + e.getMessage());
             return -1;
         }
     }
@@ -141,8 +151,9 @@ public class Client {
                 // show all commands
             } else if (command.equals("-changepassword")) {
                 // change password
-                String request = url + "/users/changePassword?";
-                String params = changePassword(scanner);
+                String request = url + "/users/changePassword";
+                String body = changePassword(scanner);
+                if (doPut(request, body) != 200) {
 
             }
         }
@@ -230,6 +241,12 @@ public class Client {
         oldPassword = inputReader.next().trim();
         System.out.print("Enter the new password: ");
         newPassword = inputReader.next().trim();
-        return String.format("");
+        JSONObject user = new JSONObject();
+        user.put("username", username);
+        user.put("oldPassword", oldPassword);
+        user.put("newPassword", newPassword);
+        return user.toString();
+//        return String.format("username=%s&oldPassword=%s&newPassword=%s");
+
     }
 }
