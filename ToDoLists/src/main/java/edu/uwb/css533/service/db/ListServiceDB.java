@@ -313,30 +313,7 @@ public class ListServiceDB extends DatabaseConnection{
         }
     }
 
-    public String deleteList(String userName, String listName) {
-        if (isConnected()) {
-            String list_id = userName+"_"+listName;
-            String sql = "DELETE FROM Lists WHERE listid=?;";
-            try {
-                PreparedStatement stmt = connection.prepareStatement(sql);
-                stmt.setInt(1, Integer.parseInt(list_id));
-                int rows = stmt.executeUpdate();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-                return "Error: " + e.getMessage();
-            }
-            String update = removeAccess(userName,list_id);
-            if(update.contains("successfully")){
-                return String.format("Successfully delete list (%s).", listName);
-            }
-            else {
-                System.out.println("update info table failed");
-                return String.format("Error: Failed to delete list (%s)." , listName);
-            }
-        } else  {
-            return "Error: Unable to connect to " + url;
-        }
-    }
+
 
     public String deleteList2(String username, String listid) {
         if (isConnected()) {
@@ -349,25 +326,7 @@ public class ListServiceDB extends DatabaseConnection{
             // remove access for all users how can access listid to this listid
             String[] usernames = getAllUsers(listid).split(",");
             boolean accessRemoved = true;
-//            for (int i = 0; i < usernames.length; i++) {
-//                String curUser = usernames[i];
-//                if (curUser.startsWith("[")) {
-//                    System.out.println(curUser + " starts with ]");
-//                    curUser = curUser.substring(1);
-//                } else if (curUser.endsWith("]")) {
-//                    System.out.println(curUser + " ends with [");
-//
-//                    curUser = curUser.substring(0, curUser.length()-2);
-//                }
-//
-//                System.out.println("remove "+ curUser + "'s access to " + listid);
-//                String removeAccess = removeAccess(curUser, listid);
-//                System.out.println(removeAccess);
-//                if (removeAccess.contains("Error")) {
-//                    accessRemoved = false;
-//                    break;
-//                }
-//            }
+
             int i = 0;
             String removeAccessMsg = "";
             while (i < usernames.length && accessRemoved) {
@@ -394,7 +353,7 @@ public class ListServiceDB extends DatabaseConnection{
             if (!accessRemoved) {
                 return removeAccessMsg;
             }
-            System.out.println("usernames: " + usernames.toString());
+
             String sql = "DELETE FROM Lists WHERE listid=?;";
 
             try {

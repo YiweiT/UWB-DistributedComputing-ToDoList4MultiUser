@@ -25,10 +25,14 @@ import org.json.JSONObject;
 public class Client {
 
     private static boolean loggedIn;
+    private static boolean quitListsService;
+    private static boolean quitSingleListService;
+    private static boolean quitTaskService;
+
     private static String curUsername;
     static String url = "http://localhost:8080";
-    private String currentListId;
-    private String currentTaskId;
+    private static String currentListId;
+    private static String currentTaskId;
 
 
     private static int doGet(String url) {
@@ -137,32 +141,469 @@ public class Client {
     public static void main(String[] args) {
         System.out.println("Welcome to to-do list.");
         loggedIn = false;
+        currentListId = null;
         BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter \"-help\" to see all the commands.");
-
-
         while(!loggedIn) {
-           userService(scanner);
+            userService(scanner);
+            quitListsService = false;
+            while ((!quitListsService) && loggedIn && currentListId == null) {
+                listsService(scanner);
+                quitSingleListService = false;
+                while ((!quitSingleListService) && loggedIn && currentListId != null) {
+                    singleListService(scanner);
+                    quitTaskService = false;
+                    while ((!quitTaskService) && loggedIn && currentListId != null && currentTaskId != null) {
+                        taskService(scanner);
+                    }
+                    currentTaskId = null;
+                }
+                currentListId = null;
+            }
+            loggedIn = false;
         }
 
-        System.out.println("Enter a command to proceed.");
-        String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
-        while (!command.contains("quit")) {
-            if (command.equals("-help")) {
-                // show all commands
-                System.out.println("help manual");
-            } else if (command.equals("-changepassword")) {
-                // change password
-                String request = url + "/users/changePassword";
-                String body = changePassword(scanner);
-                doPut(request, body);
+    }
 
+    private static void taskService(Scanner scanner) {
+        String currentTaskName = currentTaskId.split("_")[2];
+
+        System.out.println("--------------------------------------------------------");
+        System.out.println("In task " + currentTaskName +  " you can:");
+        System.out.println("1. Update task content");
+        System.out.println("2. Update status");
+        System.out.println("3. Update task name");
+        System.out.println("4. Display details of a task");
+        System.out.println("--------------------------------------------------------");
+
+        String userRespond;
+        userRespond = scanner.nextLine().toLowerCase().trim();
+
+        switch (userRespond) {
+            case "1" -> {
+                // code to update task content
+            }
+            case "2" -> {
+                // code to update task status
+            }
+            case "3" -> {
+                // code to update task name
+            }
+            case "4" -> {
+                // code to display a task
+            }
+            default -> {
+                System.out.println("Code is not added yet, remove it after complete above cases!");
+                quitTaskService = true;
+            }
+
+        }
+
+    }
+
+    private static void singleListService(Scanner scanner) {
+        // <currentListId> = <username>_<listId>
+        String currentListName = currentListId.split("_")[1];
+        System.out.println("--------------------------------------------------------");
+        System.out.println("In ToDoList " + currentListName +  " you can:");
+        System.out.println("1. Check whether someone has access of this ToDoList");
+        System.out.println("2. Grant access of this ToDoList to someone");
+        System.out.println("3. Remove someone's access of this ToDoList");
+        System.out.println("4. Get all users of this ToDoList");
+        System.out.println("5. Get all tasks of this ToDoList");
+        System.out.println("6. Add a task into this ToDoList");
+        System.out.println("7. Delete a task from this ToDoList");
+        System.out.println("8. Delete all tasks from this ToDoList");
+        System.out.println("9. Enter into a task");
+        System.out.println("--------------------------------------------------------");
+        System.out.println("Please enter the number of the action you want:");
+        String userRespond;
+        userRespond = scanner.nextLine().toLowerCase().trim();
+
+        switch (userRespond) {
+            case "1" -> {
+                // code for checkAccess
+                System.out.println("To check access of someone, please enter his/her username:");
+                String username = scanner.nextLine().trim();
+                String request = url + "/lists/" + username + "/checkAccess/" + currentListId;
+                System.out.println(request);
+                if (doGet(request) == 200) {
+                    System.out.println("Successfully returned checkAccess, do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+
+                    }
+
+                } else {
+                    System.out.println("CheckAccess failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+
+                    }
+                }
+            }
+            case "2" -> {
+                // code for grantAccess
+                System.out.println("To grant access to someone, please enter his/her username:");
+                String username = scanner.nextLine().trim();
+                String request = url + "/lists/" + username + "/grantAccess/" + currentListId;
+                System.out.println(request);
+                if (doGet(request) == 200) {
+                    System.out.println("Successfully returned grantAccess, do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+
+                    }
+
+                } else {
+                    System.out.println("GrantAccess failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+
+                    }
+                }
+            }
+            case "3" -> {
+                // code for removeAccess
+                System.out.println("To remove access to someone, please enter his/her username:");
+                String username = scanner.nextLine().trim();
+                String request = url + "/lists/" + username + "/removeAccess/" + currentListId;
+                System.out.println(request);
+                if (doGet(request) == 200) {
+                    System.out.println("Successfully returned removeAccess, do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+
+                    }
+
+                } else {
+                    System.out.println("RemoveAccess failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+                    }
+                }
+            }
+            case "4" -> {
+                // code for getAllUsers
+                System.out.println("Returning all users of ToDoList " + currentListId);
+                String request = url + "/lists/getAllUsers/"  + currentListId;
+                System.out.println(request);
+                if (doGet(request) == 200) {
+                    System.out.println("Successfully returned all users of this ToDoList, do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+
+                    }
+
+                } else {
+                    System.out.println("Get all users failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+                    }
+                }
+            }
+            case "5" -> {
+                // code for displayAllTasks
+                System.out.println("Returning all tasks of ToDoList " + currentListId);
+                String query = String.format("username=%s&listId=%s", curUsername, currentListId);
+                String request = url + "/displayAllTasksNames?" + query;
+                System.out.println(request);
+                if (doGet(request) == 200) {
+                    System.out.println("Successfully displayed all tasks of this ToDoList, do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+
+                    }
+
+                } else {
+                    System.out.println("Display all tasks failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+                    }
+                }
+            }
+            case "6" -> {
+                // code for add a task
+                System.out.println("To add a task of ToDoList " + currentListId + ", please enter the task name:");
+                String taskName = scanner.nextLine().trim();
+                System.out.println("Please also enter the task description:");
+                String taskDescription = scanner.nextLine().trim();
+                String query = String.format("username=%s&listId=%s&taskName=%s&taskDescription=%s", curUsername, currentListId, taskName, taskDescription);
+                String request = url + "/addTask?" + query;
+                System.out.println(request);
+                if (doGet(request) == 200) {
+                    System.out.println("Successfully added the task to this ToDoList, do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+
+                    }
+
+                } else {
+                    System.out.println("Adding this task failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+                    }
+                }
+            }
+            case "7" -> {
+                // code for delete a task
+                System.out.println("To delete a task from ToDoList " + currentListId + ", please enter the task name:");
+                String taskName = scanner.nextLine().trim();
+                String taskId = curUsername + "_" + currentListName + "_" + taskName;
+                String query = String.format("username=%s&listId=%s&taskId=%s", curUsername, currentListId, taskId);
+                String request = url + "/deleteTask?" + query;
+                System.out.println(request);
+                if (doGet(request) == 200) {
+                    System.out.println("Successfully delete the task from this ToDoList, do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+
+                    }
+
+                } else {
+                    System.out.println("Deleting this task failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+                    }
+                }
 
             }
-            command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
+            case "8" -> {
+                // code for deleteAllTasks
+                System.out.println("Deleting all tasks from ToDoList " + currentListId);
+                String query = String.format("username=%s&listId=%s", curUsername, currentListId);
+                String request = url + "/deleteAllTasks?" + query;
+                System.out.println(request);
+                if (doGet(request) == 200) {
+                    System.out.println("Successfully delete all tasks from this ToDoList, do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+
+                    }
+
+                } else {
+                    System.out.println("Deleting all tasks failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitSingleListService = false;
+                    } else {
+                        quitSingleListService = true;
+                        System.out.println("Coming back to the ToDoLists main menu......");
+                    }
+                }
+            }
+
+            case "9" -> {
+                //code to enter a specific task
+                System.out.println("Please enter the task name you want to enter:");
+                String taskName = scanner.nextLine().trim();
+                currentTaskId = curUsername + "_" + currentListName + "_" + taskName;
+                System.out.println("You entered into list: " + taskName);
+
+            }
         }
+
+
+    }
+
+    private static void listsService(Scanner scanner) {
+        System.out.println("--------------------------------------------------------");
+        System.out.println("Here in ToDoList main menu, you can:");
+        System.out.println("1. Get all your ToDoLists");
+        System.out.println("2. Add a ToDoList");
+        System.out.println("3. Delete a ToDoList");
+        System.out.println("4. Delete all ToDoLists");
+        System.out.println("5. Enter into a ToDoList");
+        System.out.println("--------------------------------------------------------");
+        System.out.println("Please enter the number of the action you want:");
+        String userRespond;
+        userRespond = scanner.nextLine().toLowerCase().trim();
+
+        switch (userRespond) {
+            case "1" -> {
+                // code for getAllLists
+                System.out.println("Displaying all your ToDoLists ......");
+                String query = String.format("username=%s", curUsername);
+                String request = url + "/lists/getAllLists?" + query;
+                System.out.println(request);
+                if (doGet(request) == 200) {
+                    System.out.println("Successfully display all your ToDoLists, do you want to come back to the main menu? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitListsService = false;
+                    } else {
+                        quitListsService = true;
+                        System.out.println("Logging out......");
+                    }
+
+                } else {
+                    System.out.println("Display all your ToDoLists failed for some reasons,Do you want to come back to the main menu? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitListsService = false;
+                    } else {
+                        quitListsService = true;
+                        System.out.println("Logging out......");
+                    }
+                }
+            }
+
+            case "2" -> {
+                // code for addList
+                System.out.println("To add a ToDoList, please enter the ToDoList name:");
+                String listName = scanner.nextLine().trim();
+                String query = String.format("username=%s&listname=%s", curUsername, listName);
+                String request = url + "/lists/addList?" + query;
+                System.out.println(request);
+                if (doGet(request) == 200) {
+                    System.out.println("Successfully add a ToDoList, do you want to come back to the main menu? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitListsService = false;
+                    } else {
+                        quitListsService = true;
+                        System.out.println("Logging out......");
+                    }
+
+                } else {
+                    System.out.println("Adding a ToDoList failed for some reasons,Do you want to come back to the main menu? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitListsService = false;
+                    } else {
+                        quitListsService = true;
+                        System.out.println("Logging out......");
+                    }
+                }
+            }
+
+            case "3" -> {
+                // code for deleteList
+                System.out.println("To delete a ToDoList, please enter the ToDoList name:");
+                String listName = scanner.nextLine().trim();
+                String listId = curUsername + "_" + listName;
+                String query = String.format("username=%s&listid=%s", curUsername, listId);
+                String request = url + "/lists/deleteList?" + query;
+                System.out.println(request);
+                if (doGet(request) == 200) {
+                    System.out.println("Successfully delete a ToDoList, do you want to come back to the main menu? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitListsService = false;
+                    } else {
+                        quitListsService = true;
+                        System.out.println("Logging out......");
+                    }
+
+                } else {
+                    System.out.println("Deleting a ToDoList failed for some reasons,Do you want to come back to the main menu? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitListsService = false;
+                    } else {
+                        quitListsService = true;
+                        System.out.println("Logging out......");
+                    }
+                }
+
+            }
+            case "4" -> {
+                // code for deleteAllLists
+                System.out.println("Deleting all your ToDoLists......");
+                String query = String.format("username=%s", curUsername);
+                String request = url + "/lists/deleteAllLists?" + query;
+                System.out.println(request);
+                if (doGet(request) == 200) {
+                    System.out.println("Successfully delete all your ToDoLists, do you want to come back to the main menu? (Yes/No)");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitListsService = false;
+                    } else {
+                        quitListsService = true;
+                        System.out.println("Logging out......");
+                    }
+
+                } else {
+                    System.out.println("Deleting all your ToDoLists failed for some reasons,Do you want to come back to the main menu? (Yes/No");
+                    String response = scanner.nextLine().toLowerCase().trim();
+                    if (response.equals("yes")) {
+                        quitListsService = false;
+                    } else {
+                        quitListsService = true;
+                        System.out.println("Logging out......");
+                    }
+                }
+            }
+            case "5" -> {
+                // code for enterList
+                System.out.println("Please enter the list name you want to enter:");
+                String listName = scanner.nextLine().trim();
+                currentListId = curUsername + "_" + listName;
+                System.out.println("You entered into list: " + listName);
+            }
+        }
+
     }
 
     public static void userService(Scanner scanner) {
@@ -206,7 +647,7 @@ public class Client {
         System.out.print("Enter username: ");
         username = inputReader.nextLine().trim();
         System.out.print("Enter password: ");
-        password = inputReader.next().trim();
+        password = inputReader.nextLine().trim();
         curUsername = username;
 
         return String.format("username=%s&password=%s", username, password);

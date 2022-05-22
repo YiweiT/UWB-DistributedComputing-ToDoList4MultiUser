@@ -73,9 +73,9 @@ public class ListResource {
     @GET
     @Path("/addList")
     public Response addList(
-            @QueryParam("username") String userName,
-            @QueryParam("listname") String listname) throws SQLException {
-
+            AddList list) throws SQLException {
+        String userName = list.getUsername();
+        String listname = list.getListname();
 
         String success = dbConnection.addList(userName,listname);
         if(success.contains("Successfully")){
