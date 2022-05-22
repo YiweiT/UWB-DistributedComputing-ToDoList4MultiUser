@@ -147,16 +147,19 @@ public class UserResources {
         String newPassword = changePwd.getNewPassword();
         // validate username and passwords
         if (!isValid(username)) {
+            System.out.println("Invalid username");
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Invalid username")
                     .build();
         }
         if (!isValid(oldPassword)) {
+            System.out.println("Invalid old password");
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Invalid old password")
                     .build();
         }
         if (!isValid(newPassword)) {
+            System.out.println("Invalid new password");
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Invalid new password")
                     .build();
