@@ -5,6 +5,7 @@ import edu.uwb.css533.service.db.ListServiceDB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 
 @Path("/lists")
 @Produces(MediaType.APPLICATION_JSON)
@@ -67,6 +68,73 @@ public class ListResource {
                     .build();
         }
         return Response.ok(msg).build();
+    }
+
+    @GET
+    @Path("/addList")
+    public Response addList(
+            @QueryParam("username") String userName,
+            @QueryParam("listname") String listname) throws SQLException {
+
+
+        String success = dbConnection.addList(userName,listname);
+        if(success.contains("Successfully")){
+            return Response.ok(success).build();
+        }
+        else{
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(success)
+                    .build();
+        }
+    }
+    @GET
+    @Path("/deleteList")
+    public Response deleteList(
+            @QueryParam("username") String userName,
+            @QueryParam("listid") String listid) {
+        String msg = "";
+        String success = dbConnection.deleteList2(userName,listid);
+        if(success.contains("Successfully")){
+//            msg = " list " + listName + " has been deleted for user: " + userName;
+            return Response.ok(success).build();
+        }
+        else{
+//            msg=" Deleting list " +listName + "for user: "+ userName + "has failed";
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(success)
+                    .build();
+        }
+    }
+    @GET
+    @Path("deleteAllLists")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteAllLists(
+            @QueryParam("username") String userName) {
+
+        String success = dbConnection.deleteAllLists(userName);
+        if(success.contains("Successfully")){
+            return Response.ok(success).build();
+        }
+        else{
+
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(success)
+                    .build();
+        }
+    }
+    @GET
+    @Path("/getAllLists")
+    public Response displayAllListsNames(
+            @QueryParam("username") String userName) {
+
+        String success = dbConnection.getAllLists(userName);
+        if(success.contains("Error")){
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(success)
+                    .build();
+
+        }
+        return Response.ok(success).build();
     }
 
 }

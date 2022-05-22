@@ -32,6 +32,7 @@ public class DatabaseConnection {
         createUserTable();
         createListTable();
         createTaskTable();
+        autoUpdateModifiedFunc();
         System.out.println("Connected to " + url);
     }
 
@@ -51,6 +52,32 @@ public class DatabaseConnection {
         }
         return true;
 
+    }
+
+    private void autoUpdateModifiedFunc() {
+        String sql =
+                "CREATE OR REPLACE FUNCTION update_modified_column()"
+        + "RETURNS TRIGGER AS $$"
+        + "BEGIN"
+        + " NEW.last_modified_date = now();"
+        + "RETURN NEW;"
+        + "END;"
+        + "$$ language 'plpgsql';" +
+         "CREATE OR REPLACE TRIGGER update_list_modtime BEFORE UPDATE ON " +
+         "lists FOR EACH ROW EXECUTE PROCEDURE  update_modified_column();" +
+         "CREATE OR REPLACE TRIGGER update_task_modtime BEFORE UPDATE ON tasks" +
+         " FOR EACH ROW EXECUTE PROCEDURE  update_modified_column();";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            int rows = statement.executeUpdate();
+            System.out.println(
+                    "Create or replace update_modified_column function " +
+                            "and create triggers for Lists and Tasks table");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void createUserTable() {
