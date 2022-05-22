@@ -58,7 +58,7 @@ public class Client {
         }
     }
 
-    private static int doPut(String link, String payload) {
+    private static void doPut(String link, String payload) {
         HttpURLConnection connection = null;
         try {
             // create connection
@@ -83,15 +83,15 @@ public class Client {
             }
             System.out.println(response.toString());
             connection.disconnect();
-            return connection.getResponseCode();
+
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
             System.out.println("Malformed URL Exception: " + e.getMessage());
-            return -1;
+
         } catch (IOException e) {
             System.out.println("IO Exceptions: " + e.getMessage());
-            return -1;
+
         }
     }
 
@@ -136,26 +136,32 @@ public class Client {
 
     public static void main(String[] args) {
         System.out.println("Welcome to to-do list.");
+        loggedIn = false;
         BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter \"-help\" to see all the commands.");
 
-        String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
+
         while(!loggedIn) {
            userService(scanner);
         }
+
         System.out.println("Enter a command to proceed.");
+        String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
         while (!command.contains("quit")) {
             if (command.equals("-help")) {
                 // show all commands
+                System.out.println("help manual");
             } else if (command.equals("-changepassword")) {
                 // change password
                 String request = url + "/users/changePassword";
                 String body = changePassword(scanner);
-                if (doPut(request, body) != 200) {
+                doPut(request, body);
+
 
             }
+            command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
         }
     }
 
@@ -181,7 +187,6 @@ public class Client {
                 System.out.println(payload);
                 if (doPost2(request, payload) == 200) {
                     loggedIn = true;
-
                     System.out.println(
                             String.format("Successfully registered and logged in as %s!", curUsername));
                 } else {
@@ -216,13 +221,6 @@ public class Client {
         System.out.print("Enter password: ");
         password = inputReader.next().trim();
         curUsername = username;
-//        var values = new HashMap<String, String>() {{
-//            put("username", username);
-//            put ("password", password);
-//        }};
-//        var objectMapper = new ObjectMapper();
-//        String requestBody = objectMapper
-//                .writeValueAsString(values);
         JSONObject user = new JSONObject();
         user.put("username", username);
         user.put("password", password);

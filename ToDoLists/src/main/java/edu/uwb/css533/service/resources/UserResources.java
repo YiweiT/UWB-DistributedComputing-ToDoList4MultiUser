@@ -98,6 +98,7 @@ public class UserResources {
     public Response logIn(@QueryParam("username") String username,
                           @QueryParam("password") String password) {
         // validate username and password
+
         if (!isValid(username)) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Invalid username")
@@ -118,12 +119,33 @@ public class UserResources {
         }
     }
 
+    static class ChangePwd {
+        String username;
+        String oldPassword;
+        String newPassword;
+        @JsonProperty ("username")
+        public String getUsername() {
+            return username;
+        }
+
+        @JsonProperty("oldPassword")
+        public String getOldPassword() {
+            return oldPassword;
+        }
+
+        @JsonProperty("newPassword")
+        public String getNewPassword() {
+            return newPassword;
+        }
+    }
+
     @PUT
     @Path("/changePassword")
-    public Response changePassword (@QueryParam("username") String username,
-                                   @QueryParam("oldPassword") String oldPassword,
-                                   @QueryParam("newPassword") String newPassword) {
-        // validate username and passwordss
+    public Response changePassword (ChangePwd changePwd) {
+        String username = changePwd.getUsername();
+        String oldPassword = changePwd.getOldPassword();
+        String newPassword = changePwd.getNewPassword();
+        // validate username and passwords
         if (!isValid(username)) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Invalid username")
