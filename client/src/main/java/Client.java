@@ -18,6 +18,7 @@ import java.util.Stack;
 import java.util.zip.CheckedOutputStream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.json.JSONObject;
 
@@ -48,7 +49,10 @@ public class Client {
                     .build();
             HttpResponse<String>  response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            System.out.println(response.body());
+            ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+
+            String json = mapper.writeValueAsString(response);
+            System.out.println(json);
             return response.statusCode();
         } catch (IOException e) {
             System.out.println("IO Exceptions: " + e.getMessage());
@@ -62,7 +66,7 @@ public class Client {
         }
     }
 
-    private static void doPut(String link, String payload) {
+    private static int doPut(String link, String payload) {
         HttpURLConnection connection = null;
         try {
             // create connection
@@ -87,15 +91,16 @@ public class Client {
             }
             System.out.println(response.toString());
             connection.disconnect();
-
+            return connection.getResponseCode();
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
             System.out.println("Malformed URL Exception: " + e.getMessage());
+            return -1;
 
         } catch (IOException e) {
             System.out.println("IO Exceptions: " + e.getMessage());
-
+            return -1;
         }
     }
 
@@ -513,10 +518,14 @@ public class Client {
                 // code for addList
                 System.out.println("To add a ToDoList, please enter the ToDoList name:");
                 String listName = scanner.nextLine().trim();
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("username", curUsername);
+                jsonObject.put("listname", listName);
                 String query = String.format("username=%s&listname=%s", curUsername, listName);
-                String request = url + "/lists/addList?" + query;
+                String request = url + "/lists/addList";
                 System.out.println(request);
-                if (doGet(request) == 200) {
+                System.out.println(jsonObject.toString());
+                if (doPost2(request, jsonObject.toString()) == 200) {
                     System.out.println("Successfully add a ToDoList, do you want to come back to the main menu? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
@@ -540,13 +549,17 @@ public class Client {
 
             case "3" -> {
                 // code for deleteList
-                System.out.println("To delete a ToDoList, please enter the ToDoList name:");
-                String listName = scanner.nextLine().trim();
-                String listId = curUsername + "_" + listName;
-                String query = String.format("username=%s&listid=%s", curUsername, listId);
-                String request = url + "/lists/deleteList?" + query;
+                System.out.println("To delete a ToDoList, please enter the ToDoList id:");
+                String listid = scanner.nextLine().trim();
+//                String listId = curUsername + "_" + listName;
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("username", curUsername);
+                jsonObject.put("listid", listid);
+//                String query = String.format("username=%s&listid=%s", curUsername, listId);
+                String request = url + "/lists/deleteList";
                 System.out.println(request);
-                if (doGet(request) == 200) {
+                System.out.println(jsonObject.toString());
+                if (doPut(request, jsonObject.toString()) == 200) {
                     System.out.println("Successfully delete a ToDoList, do you want to come back to the main menu? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {

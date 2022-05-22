@@ -70,7 +70,7 @@ public class ListResource {
         return Response.ok(msg).build();
     }
 
-    @GET
+    @POST
     @Path("/addList")
     public Response addList(
             AddList list) throws SQLException {
