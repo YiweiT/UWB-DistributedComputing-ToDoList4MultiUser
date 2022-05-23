@@ -420,8 +420,8 @@ public class ListServiceDB extends DatabaseConnection{
      */
     public String getAllLists(String username) {
         if (isConnected()) {
-            String sql = "select l.listid, l.listname, " +
-                    "l.list_type from lists as l inner join(SELECT " +
+            String sql = "select l.listid, l.listname " +
+                    " from lists as l inner join(SELECT " +
                     "UNNEST(listids)::INTEGER as listid from " +
                     "users_info where username=?) i on l.listid = i.listid " +
                     "order by l.last_modified_date desc;";

@@ -308,7 +308,7 @@ public class TaskServiceDB extends ListServiceDB {
             System.out.println("Here is all your tasks:");
             JSONArray result = new JSONArray();
             while (rs.next()) {
-                System.out.println("Task Name: " + rs.getString("taskname"));
+
                 JSONObject row = new JSONObject();
                 row.put("taskid", rs.getInt("taskid"));
                 row.put("taskname", rs.getString("taskname"));
