@@ -48,11 +48,8 @@ public class Client {
                     .uri(URI.create(url))
                     .build();
             HttpResponse<String>  response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-
-            String json = mapper.writeValueAsString(response);
-            System.out.println(json);
+            JSONObject json = new JSONObject(response.body());
+            System.out.println(json.toString(4));
             return response.statusCode();
         } catch (IOException e) {
             System.out.println("IO Exceptions: " + e.getMessage());

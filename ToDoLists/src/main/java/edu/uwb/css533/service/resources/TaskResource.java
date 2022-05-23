@@ -12,25 +12,30 @@ import javax.ws.rs.core.Response;
 public class TaskResource {
     TaskServiceDB databaseConnection;
 
+    public TaskResource() {
+        this.databaseConnection = new TaskServiceDB();
+    }
+
     @POST
     @Path("/addTask")
     public Response addTask(AddTask task) {
-        String msg = "";
+
         String taskName = task.getTaskname();
         String taskDescription = task.getContent();
         String listId = task.getListid();
         String userName = task.getUsername();
 
-        String[] msgList = databaseConnection.addTask(taskName,taskDescription,listId,userName);
-        msg = msgList[0];
+        String msg = databaseConnection.addTask(taskName,taskDescription,listId,userName);
+
         if(msg.contains("Successfully")){
             String message = " task " + taskName +"of list" + listId + " has been added for user: " + userName;
-            System.out.println(message);
-            return Response.ok(ImmutableMap.of(msgList[1], msgList[0])).build();
+            System.out.println(msg);
+            return Response.ok(msg).build();
         }
         else{
             String message = " Adding " +taskName +" of  list " +listId + "for user: "+ userName + "has failed";
             System.out.println(message);
+            System.out.println(msg);
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(msg)
                     .build();
@@ -99,12 +104,12 @@ public class TaskResource {
     }
     @PUT
     @Path("/updateTaskContent")
-    public Response updateTaskContent(
-            @QueryParam("username") String userName,
-            @QueryParam("listid") String listId,
-            @QueryParam("taskid") String taskId,
-            @QueryParam("content") String taskContent) {
+    public Response updateTaskContent(UpdateTaskContent task) {
         String msg = "";
+        String userName = task.getUsername();
+        String listId = task.getListId();
+        String taskContent = task.getContent();
+        String taskId = task.getTaskId();
         msg= databaseConnection.updateTaskContent(userName,listId,taskContent,taskId);
         if(msg.contains("Successfully")){
             System.out.println("Update task content to "+taskContent+" of task " + taskId +"of list" + listId + " has been added for user: " + userName);
@@ -119,12 +124,14 @@ public class TaskResource {
     }
     @PUT
     @Path("/updateTaskStatus")
-    public Response updateTaskStatus(
-            @QueryParam("username") String userName,
-            @QueryParam("listid") String listId,
-            @QueryParam("taskid") String taskId,
-            @QueryParam("status") String taskStatus) {
+    public Response updateTaskStatus(UpdateTaskStatus task) {
+
         String msg = "";
+        String userName = task.getUsername();
+        String listId = task.getListId();
+        String taskStatus = task.getTaskstatus();
+        String taskId = task.getTaskId();
+        System.out.println(task.toString());
         msg= databaseConnection.updateTaskStatus(userName,listId,taskStatus,taskId);
         if(msg.contains("Successfully")){
             System.out.println("Update task status to "+taskStatus+" of task " + taskId +"of list" + listId + " has been added for user: " + userName);
