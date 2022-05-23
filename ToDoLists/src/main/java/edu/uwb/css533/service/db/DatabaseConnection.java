@@ -103,8 +103,10 @@ public class DatabaseConnection {
             PreparedStatement statement = connection.prepareStatement(sql);
 
             int rows = statement.executeUpdate();
-            System.out.println("Successfully create Users_info table\n"
-                    + "result from executeUpdate: " + Integer.toString(rows));
+            if (rows > 0) {
+                System.out.println("Successfully create Users_info table");
+            }
+
         } catch (SQLException e) {
             System.out.println("Error: Unable to create table Users_info\n" + e.getMessage());
         }
@@ -122,8 +124,10 @@ public class DatabaseConnection {
             PreparedStatement statement = connection.prepareStatement(sql);
 
             int rows = statement.executeUpdate();
-            System.out.println("Successfully create Lists table\n"
-                    + "result from executeUpdate: " + Integer.toString(rows));
+            if (rows > 0) {
+                System.out.println("Successfully create Lists table");
+            }
+
         } catch (SQLException e) {
             System.out.println("Error: Unable to create table Lists\n" + e.getMessage());
         }
@@ -144,8 +148,10 @@ public class DatabaseConnection {
             PreparedStatement statement = connection.prepareStatement(sql);
 
             int rows = statement.executeUpdate();
-            System.out.println("Successfully create Tasks table\n"
-                    + "result from executeUpdate: " + Integer.toString(rows));
+            if (rows > 0) {
+                System.out.println("Successfully create Tasks table");
+            }
+
         } catch (SQLException e) {
             System.out.println("Error: Unable to create table Tasks\n" + e.getMessage());
         }
