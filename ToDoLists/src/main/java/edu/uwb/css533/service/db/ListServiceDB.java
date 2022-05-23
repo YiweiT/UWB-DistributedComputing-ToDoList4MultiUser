@@ -353,6 +353,12 @@ public class ListServiceDB extends DatabaseConnection{
             if (!accessRemoved) {
                 return removeAccessMsg;
             }
+            // delete all tasks under such list
+            TaskServiceDB taskServiceDB = new TaskServiceDB();
+            String taskDeletion = taskServiceDB.deleteAllTasks(username, listid);
+            if (!taskDeletion.contains("Successfully")) {
+                return taskDeletion;
+            }
 
             String sql = "DELETE FROM Lists WHERE listid=?;";
 

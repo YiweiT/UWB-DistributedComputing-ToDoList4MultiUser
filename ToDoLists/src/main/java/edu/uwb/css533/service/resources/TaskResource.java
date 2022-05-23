@@ -57,7 +57,7 @@ public class TaskResource {
             return Response.ok(msg).build();
         }
         else{
-            String message = " Deleting " +taskId +" of  list " +listId + "for user: "+ userName + "has failed";
+            String message = " Deleting task (" +taskId +") of  list (" +listId + ") for user: "+ userName + " has failed";
             System.out.println(message);
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(msg)

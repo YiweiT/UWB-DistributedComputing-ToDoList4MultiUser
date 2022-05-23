@@ -136,38 +136,45 @@ public class TaskServiceDB extends ListServiceDB {
         boolean taskNameExist = checkExist(task_id);
 
         if(!taskNameExist){
-            System.out.println("taskName does not exists for current list");
-            return "taskName does not exists for current list";
+            System.out.println(task_id + " does not exists for current list");
+            return task_id + " does not exists for current list";
         }
 
-        String sql = "DELETE FROM TASKS WHERE TASKID= ?;";
+        String sql = "DELETE FROM TASKS WHERE TASKID= ? and LISTID=?;";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1,Integer.parseInt(task_id));
+            stmt.setInt(2, Integer.parseInt(list_id));
             int rows = stmt.executeUpdate();
+            if (rows > 0) {
+                String listUpdate = updateListDate(list_id);
+                if(!listUpdate.contains("Successfully")){
+                    return listUpdate;
+                }
+                return " Successfully deleted task " + task_id +" of list " + list_id + " for user: " + userName;
+            } else {
+                return String.format("Error: task (%s) of list (%s) does not exist.", task_id, list_id);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return e.getMessage();
         }
-        String listUpdate = updateListDate(list_id);
-        if(!listUpdate.contains("Successfully")){
-            return listUpdate;
-        }
-        return " Successfully deleted task " + task_id +"of list " + list_id + " for user: " + userName;
+
+
     }
 
     public String deleteAllTasks(String user_name, String list_id){
         boolean notAllowed = checkAccess(user_name,list_id).contains("Error");
         if(notAllowed){
             System.out.println("Invalid user");
-            return "Invalid user";
+            return "Error: Invalid user";
         }
         if (connection == null) {
             connect();
         }
         if (connection == null) {
-            System.out.println(("Unable to connect to database."));
-            return "Unable to connect database.";
+            System.out.println(("Error: Unable to connect to database."));
+            return "Error: Unable to connect database.";
         }
         String sql = "DELETE FROM TASKS WHERE LISTID=?;";
         try {
