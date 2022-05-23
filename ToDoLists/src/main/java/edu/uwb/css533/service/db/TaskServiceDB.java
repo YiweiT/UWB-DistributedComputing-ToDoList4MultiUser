@@ -199,7 +199,7 @@ public class TaskServiceDB extends ListServiceDB {
             System.out.println(("Unable to connect to database."));
             return "Unable to connect to database.";
         }
-        String sql_get_task_name = "SELECT TASKID, TASKNAME FROM TASKS WHERE LISTID=?;";
+        String sql_get_task_name = "SELECT TASKID, TASKNAME, CONTENT, STATUS FROM TASKS WHERE LISTID=?;";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql_get_task_name);
             stmt.setInt(1, Integer.parseInt(list_id));
@@ -212,13 +212,15 @@ public class TaskServiceDB extends ListServiceDB {
             System.out.println("Here is all your tasks:");
             JSONArray result = new JSONArray();
             while (rs.next()) {
-                msg = msg+"Task Name: " + rs.getString("task_name")+"\n";
+                msg = msg+"Task Name: " + rs.getString("taskname")+"\n";
                 JSONObject row = new JSONObject();
                 row.put("taskid", rs.getInt("taskid"));
                 row.put("taskname", rs.getString("taskname"));
+                row.put("content", rs.getString("content"));
+                row.put("status", rs.getString("status"));
                 result.put(row);
 
-                System.out.println("Task Name: " + rs.getString("task_name"));
+                System.out.println("Task Name: " + rs.getString("taskname"));
             }
             return result.toString();
         }catch(SQLException e){

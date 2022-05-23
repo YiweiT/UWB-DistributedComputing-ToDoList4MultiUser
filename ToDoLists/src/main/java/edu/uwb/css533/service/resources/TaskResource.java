@@ -52,7 +52,7 @@ public class TaskResource {
         String msg = "";
         msg = databaseConnection.deleteTask(taskId,listId,userName);
         if(msg.contains("Successfully")){
-            String message=" task " + taskId +"of list" + listId + " has been deleted for user: " + userName;
+            String message=" task (" + taskId +") of list (" + listId + ") has been deleted for user: " + userName;
             System.out.println(message);
             return Response.ok(msg).build();
         }
