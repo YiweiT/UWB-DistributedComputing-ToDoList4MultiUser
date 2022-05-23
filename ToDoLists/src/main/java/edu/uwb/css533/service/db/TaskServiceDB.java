@@ -1,6 +1,7 @@
 package edu.uwb.css533.service.db;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.eclipse.jetty.util.ajax.JSON;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,19 +14,20 @@ import java.util.Date;
 import java.util.List;
 
 public class TaskServiceDB extends ListServiceDB {
-    public boolean checkExist(String taskId){
-        String sql = "SELECT TASKID FROM TASKS WHERE TASKID= ?;";
+    public boolean checkExist(String taskId, String listid){
+        String sql = "SELECT TASKID FROM TASKS WHERE TASKID= ? AND LISTID=?;";
         try {
 
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1,Integer.parseInt(taskId));
+            stmt.setInt(2, Integer.parseInt(listid));
             ResultSet rs = stmt.executeQuery();
-            if (rs == null){
-                System.out.println("No data found.");
-                return false;
-            }
+//            if (rs == null){
+//                System.out.println("No data found.");
+//                return false;
+//            }
             while (rs.next()) {
-                String compare = Integer.toString(rs.getInt("TASKID"));
+                String compare = Integer.toString(rs.getInt("taskid"));
                 if(taskId.equals(compare)) {
                     return true;
                 }
@@ -42,10 +44,7 @@ public class TaskServiceDB extends ListServiceDB {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, Integer.parseInt(listId));
             ResultSet rs = stmt.executeQuery();
-            if (rs == null){
-                System.out.println("No data found.");
-                return false;
-            }
+
             while (rs.next()) {
                 if(taskName.equals(rs.getString("TASKNAME"))) {
                     return true;
@@ -56,6 +55,53 @@ public class TaskServiceDB extends ListServiceDB {
             return false;
         }
         return false;
+    }
+
+    public String getTask(String username, String listid, String taskid) {
+        if (isConnected()) {
+            // check taskid existing
+            if (checkExist(taskid, listid)) {
+                // check username listid accessibility
+                String accessMsg = checkAccess(username, listid);
+                if (accessMsg.contains("can access")) {
+                    // fetch task information: taskid, taskname, content, status
+                    return getTask(taskid);
+
+                } else {
+                    return accessMsg;
+                }
+
+            } else {
+                System.out.println(String.format("Error: no such task (%s) exists in list (%s).", taskid, listid));
+                return String.format(String.format("Error: no such task (%s) exists in list (%s).", taskid, listid));
+            }
+
+
+        } else {
+            return "Error: Unable to connect to db - " + url;
+        }
+
+    }
+
+    private String getTask(String taskid) {
+        String sql = "SELECT TASKID, TASKNAME, CONTENT, STATUS " +
+                "FROM TASKS WHERE TASKID=?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, Integer.parseInt(taskid));
+            ResultSet rs = statement.executeQuery();
+            JSONObject row = new JSONObject();
+            while (rs.next()) {
+                row.put("taskid", rs.getInt("taskid"));
+                row.put("taskname", rs.getString("taskname"));
+                row.put("content", rs.getString("content"));
+                row.put("status", rs.getString("status"));
+            }
+            return row.toString();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
     }
 
 
@@ -133,11 +179,12 @@ public class TaskServiceDB extends ListServiceDB {
             System.out.println("Unable to connect to database.");
             return "Unable to connect to database.";
         }
-        boolean taskNameExist = checkExist(task_id);
+        boolean taskNameExist = checkExist(task_id, list_id);
 
         if(!taskNameExist){
-            System.out.println(task_id + " does not exists for current list");
-            return task_id + " does not exists for current list";
+            System.out.println(String.format("Task (%s) does not exists for current list (%s)", task_id, list_id));
+            return String.format("Task (%s) does not exists for current list (%s)", task_id, list_id);
+
         }
 
         String sql = "DELETE FROM TASKS WHERE TASKID= ? and LISTID=?;";
@@ -211,15 +258,15 @@ public class TaskServiceDB extends ListServiceDB {
             PreparedStatement stmt = connection.prepareStatement(sql_get_task_name);
             stmt.setInt(1, Integer.parseInt(list_id));
             ResultSet rs = stmt.executeQuery();
-            if (rs == null){
-                System.out.println("No task found for current list.");
-                return "No task found for current list.";
-            }
+//            if (rs == null){
+//                System.out.println("No task found for current list.");
+//                return "No task found for current list.";
+//            }
             msg = msg+ "Successfully display all tasks. Here is all your tasks:"+"\n";
             System.out.println("Here is all your tasks:");
             JSONArray result = new JSONArray();
             while (rs.next()) {
-                msg = msg+"Task Name: " + rs.getString("taskname")+"\n";
+                System.out.println("Task Name: " + rs.getString("taskname"));
                 JSONObject row = new JSONObject();
                 row.put("taskid", rs.getInt("taskid"));
                 row.put("taskname", rs.getString("taskname"));
@@ -228,6 +275,10 @@ public class TaskServiceDB extends ListServiceDB {
                 result.put(row);
 
                 System.out.println("Task Name: " + rs.getString("taskname"));
+            }
+            if (result.isEmpty()) {
+                System.out.println("No task found for current list.");
+                return "No task found for current list.";
             }
             return result.toString();
         }catch(SQLException e){

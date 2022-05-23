@@ -1,6 +1,7 @@
 package edu.uwb.css533.service.resources;
 
 import edu.uwb.css533.service.db.ListServiceDB;
+import edu.uwb.css533.service.resources.RequestObjects.AddList;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

@@ -1,8 +1,9 @@
 package edu.uwb.css533.service.resources;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.google.common.collect.ImmutableMap;
 import edu.uwb.css533.service.db.TaskServiceDB;
+import edu.uwb.css533.service.resources.RequestObjects.AddTask;
+import edu.uwb.css533.service.resources.RequestObjects.UpdateTaskContent;
+import edu.uwb.css533.service.resources.RequestObjects.UpdateTaskStatus;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -97,11 +98,26 @@ public class TaskResource {
             return Response.ok(msg).build();
         }
         else{
-            System.out.println(" Displaying all tasks of  list " +listId + "for user: "+ userName + "has failed");
+            System.out.println("Displaying all tasks of  list " +listId + " for user: "+ userName + " has failed");
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(msg)
                     .build();
         }
+    }
+
+    @GET
+    @Path("/getTask")
+    public Response getTask(@QueryParam("username") String username,
+                            @QueryParam("listid") String listid,
+                            @QueryParam("taskid") String taskid) {
+        String msg = databaseConnection.getTask(username, listid, taskid);
+        if (msg.contains("Error")) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(msg).build();
+        }
+        return Response.ok(msg).build();
+
+
     }
 
 

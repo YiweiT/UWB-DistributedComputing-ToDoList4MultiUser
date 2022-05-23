@@ -48,8 +48,10 @@ public class Client {
                     .uri(URI.create(url))
                     .build();
             HttpResponse<String>  response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            JSONObject json = new JSONObject(response.body());
-            System.out.println(json.toString(4));
+//            JSONObject json = new JSONObject(response.body());
+//            System.out.println(json.toString(4));
+            System.out.println(response.body());
+            System.out.println("********** do get finished ***********");
             return response.statusCode();
         } catch (IOException e) {
             System.out.println("IO Exceptions: " + e.getMessage());
@@ -150,7 +152,7 @@ public class Client {
         while(!loggedIn) {
             userService(scanner);
             quitListsService = false;
-            while ((!quitListsService) && loggedIn && currentListId == null) {
+            while (loggedIn && (!quitListsService)  && currentListId == null) {
                 listsService(scanner);
                 quitSingleListService = false;
                 while ((!quitSingleListService) && loggedIn && currentListId != null) {
@@ -627,9 +629,10 @@ public class Client {
                 System.out.println(request);
                 if (doGet(request) == 200) {
                     loggedIn = true;
-
+                    System.out.println("*********** login successfully *************");
                 } else {
                     curUsername = null;
+                    System.out.println("*********** login failed *************");
                 }
             } else if (userRespond.equals("-signup")) {
                 String request = url + "/users/addUser" ;

@@ -1,13 +1,23 @@
-package edu.uwb.css533.service.resources;
+package edu.uwb.css533.service.resources.RequestObjects;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UpdateTaskStatus {
+public class UpdateTaskContent {
     private String username;
     private String listid;
     private String taskid;
-    private String status;
+    private String content;
+
+    public UpdateTaskContent(String username, String listid, String taskid, String content) {
+        this.username = username;
+        this.listid = listid;
+        this.taskid = taskid;
+        this.content = content;
+    }
+
+    public UpdateTaskContent() {
+    }
 
     @JsonGetter("username")
     public String getUsername() {
@@ -21,9 +31,9 @@ public class UpdateTaskStatus {
     public String getTaskid() {
         return taskid;
     }
-    @JsonGetter("status")
-    public String getStatus() {
-        return status;
+    @JsonGetter("content")
+    public String getContent() {
+        return content;
     }
 
     @Override
@@ -32,7 +42,7 @@ public class UpdateTaskStatus {
                 "username='" + username + '\'' +
                 ", listid='" + listid + '\'' +
                 ", taskid='" + taskid + '\'' +
-                ", content='" + status + '\'' +
+                ", content='" + content + '\'' +
                 '}';
     }
 }

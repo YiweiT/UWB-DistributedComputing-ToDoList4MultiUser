@@ -11,7 +11,12 @@ import java.util.List;
 public class UserServiceDB extends DatabaseConnection {
 
 
+    public UserServiceDB() {
+    }
 
+    public UserServiceDB(String db) {
+        super(db);
+    }
 
     public String addUser(String username, String password) {
         if(isConnected()) {

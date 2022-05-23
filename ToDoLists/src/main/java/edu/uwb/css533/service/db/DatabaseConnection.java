@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class DatabaseConnection {
 
-    public String url = "jdbc:postgresql://localhost:5432/todolistdb";
+    public String url = "jdbc:postgresql://localhost:5432/";
     private String username = "postgres";
     private String password = "password";
     private int connectionTries = 3;
@@ -14,6 +14,13 @@ public class DatabaseConnection {
     Connection connection;
 
     public DatabaseConnection() {
+        this.url = this.url + "todolistdb";
+        this.db = "todolistdb";
+    }
+
+    public DatabaseConnection(String db) {
+        this.url = this.url + db;
+        this.db = db;
     }
 
     /**
@@ -29,9 +36,13 @@ public class DatabaseConnection {
         }
 
         connection = result;
+        if (this.db.contains("test")) {
+            dropTestTables();
+        }
         createUserTable();
         createListTable();
         createTaskTable();
+
         autoUpdateModifiedFunc();
         System.out.println("Connected to " + url);
     }
@@ -135,5 +146,77 @@ public class DatabaseConnection {
             System.out.println("Error: Unable to create table Tasks\n" + e.getMessage());
         }
     }
+
+    private void dropTestTables() {
+        String sql = "DROP TABLE IF EXISTS TASKS;" +
+                "DROP TABLE IF EXISTS LISTS;" +
+                "DROP TABLE IF EXISTS USERS_INFO;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            int rows = statement.executeUpdate();
+
+            System.out.println("Dropped all tabls in testdb, " + rows);
+
+        } catch (SQLException e) {
+            System.out.println("Error: Failed to drop tables for testdb\n" + e.getMessage());
+        }
+    }
+//    private void createUserTableTEST() {
+//        String sql = "CREATE TABLE USERS_INFO ("
+//                + "USERNAME VARCHAR(255) PRIMARY KEY,"
+//                + "PASSWORD VARCHAR (255) NOT NULL,"
+//                + "LISTIDS TEXT[]);";
+//
+//        try {
+//            PreparedStatement statement = connection.prepareStatement(sql);
+//
+//            int rows = statement.executeUpdate();
+//            System.out.println("Successfully create Users_info table\n"
+//                    + "result from executeUpdate: " + Integer.toString(rows));
+//        } catch (SQLException e) {
+//            System.out.println("Error: Unable to create table Users_info\n" + e.getMessage());
+//        }
+//    }
+//
+//    private void createListTableTEST() {
+//        String sql = "DROP TABLE IF EXISTS LISTS;" +
+//                "CREATE TABLE IF NOT EXISTS LISTS ("
+//                +"LISTID SERIAL PRIMARY KEY,"
+//                +"LISTNAME VARCHAR (255) NOT NULL,"
+//                +"LIST_TYPE VARCHAR (20) DEFAULT 'individual',"
+//                +"LAST_MODIFIED_DATE TIMESTAMPTZ NOT NULL DEFAULT NOW());";
+//
+//        try {
+//            PreparedStatement statement = connection.prepareStatement(sql);
+//
+//            int rows = statement.executeUpdate();
+//            System.out.println("Successfully create Lists table\n"
+//                    + "result from executeUpdate: " + Integer.toString(rows));
+//        } catch (SQLException e) {
+//            System.out.println("Error: Unable to create table Lists\n" + e.getMessage());
+//        }
+//    }
+//
+//    private void createTaskTableTEST() {
+//        String sql = "DROP TABLE IF EXISTS TASKS;" +
+//                "CREATE TABLE IF NOT EXISTS TASKS ("
+//                +"TASKID SERIAL PRIMARY KEY,"
+//                +"TASKNAME VARCHAR (255) NOT NULL,"
+//                +"CONTENT TEXT,"
+//                +"STATUS VARCHAR (20) NOT NULL DEFAULT 'Not Started',"
+//                +"LISTID SERIAL NOT NULL,"
+//                +"LAST_MODIFIED_DATE TIMESTAMPTZ NOT NULL DEFAULT NOW(),"
+//                +"FOREIGN KEY (LISTID) REFERENCES LISTS (LISTID));";
+//
+//        try {
+//            PreparedStatement statement = connection.prepareStatement(sql);
+//
+//            int rows = statement.executeUpdate();
+//            System.out.println("Successfully create Tasks table\n"
+//                    + "result from executeUpdate: " + Integer.toString(rows));
+//        } catch (SQLException e) {
+//            System.out.println("Error: Unable to create table Tasks\n" + e.getMessage());
+//        }
+//    }
 
 }

@@ -2,15 +2,14 @@ package edu.uwb.css533.service.resources;
 
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.uwb.css533.service.db.DatabaseConnection;
 import edu.uwb.css533.service.db.UserServiceDB;
+import edu.uwb.css533.service.resources.RequestObjects.ChangePwd;
+import edu.uwb.css533.service.resources.RequestObjects.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Date;
-import java.util.List;
 
 
 // http://server:port/path?para=something
@@ -22,6 +21,9 @@ public class UserResources {
 
     public UserResources() {
         this.dbConnection = new UserServiceDB();
+    }
+    public UserResources(String db) {
+        this.dbConnection = new UserServiceDB(db);
     }
 
     @GET
@@ -119,25 +121,7 @@ public class UserResources {
         }
     }
 
-    static class ChangePwd {
-        String username;
-        String oldPassword;
-        String newPassword;
-        @JsonProperty ("username")
-        public String getUsername() {
-            return username;
-        }
 
-        @JsonProperty("oldPassword")
-        public String getOldPassword() {
-            return oldPassword;
-        }
-
-        @JsonProperty("newPassword")
-        public String getNewPassword() {
-            return newPassword;
-        }
-    }
 
     @PUT
     @Path("/changePassword")

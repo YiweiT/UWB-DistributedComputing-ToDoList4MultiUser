@@ -1,4 +1,4 @@
-package edu.uwb.css533.service.resources;
+package edu.uwb.css533.service.resources.RequestObjects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;

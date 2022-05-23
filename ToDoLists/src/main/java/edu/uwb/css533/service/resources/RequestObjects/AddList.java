@@ -1,10 +1,15 @@
-package edu.uwb.css533.service.resources;
+package edu.uwb.css533.service.resources.RequestObjects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AddList {
     String username;
     String listname;
+
+    public AddList(String username, String listname) {
+        this.username = username;
+        this.listname = listname;
+    }
 
     public AddList() {
     }
