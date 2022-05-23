@@ -14,6 +14,13 @@ import java.util.Date;
 import java.util.List;
 
 public class TaskServiceDB extends ListServiceDB {
+
+    public TaskServiceDB() {
+    }
+
+    public TaskServiceDB(String db) {
+        super(db);
+    }
     public boolean checkExist(String taskId, String listid){
         String sql = "SELECT TASKID FROM TASKS WHERE TASKID= ? AND LISTID=?;";
         try {

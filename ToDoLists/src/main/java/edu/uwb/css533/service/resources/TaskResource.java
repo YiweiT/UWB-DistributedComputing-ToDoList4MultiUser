@@ -17,6 +17,9 @@ public class TaskResource {
     public TaskResource() {
         this.databaseConnection = new TaskServiceDB();
     }
+    public TaskResource(String db) {
+        this.databaseConnection = new TaskServiceDB(db);
+    }
 
     @POST
     @Path("/addTask")

@@ -16,6 +16,9 @@ public class ListResource {
     public ListResource() {
         this.dbConnection = new ListServiceDB();
     }
+    public ListResource(String db) {
+        this.dbConnection = new ListServiceDB(db);
+    }
 
     @GET
     @Path("/{username}/checkAccess/{listid}")

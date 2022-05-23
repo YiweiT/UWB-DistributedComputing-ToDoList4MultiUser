@@ -14,7 +14,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ListServiceDB extends DatabaseConnection{
+    public ListServiceDB() {
+    }
 
+    public ListServiceDB(String db) {
+        super(db);
+    }
 
     private int isExisting(String listid) {
         if (isConnected()) {
