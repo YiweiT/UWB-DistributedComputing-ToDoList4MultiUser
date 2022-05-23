@@ -1,5 +1,6 @@
 package edu.uwb.css533.service.resources;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.google.common.collect.ImmutableMap;
 import edu.uwb.css533.service.db.TaskServiceDB;
 
@@ -102,21 +103,25 @@ public class TaskResource {
                     .build();
         }
     }
+
+
     @PUT
     @Path("/updateTaskContent")
     public Response updateTaskContent(UpdateTaskContent task) {
         String msg = "";
         String userName = task.getUsername();
-        String listId = task.getListId();
+        String listId = task.getListid();
         String taskContent = task.getContent();
-        String taskId = task.getTaskId();
+        String taskId = task.getTaskid();
+        System.out.println("*************************************************");
+        System.out.println(task.toString());
         msg= databaseConnection.updateTaskContent(userName,listId,taskContent,taskId);
         if(msg.contains("Successfully")){
-            System.out.println("Update task content to "+taskContent+" of task " + taskId +"of list" + listId + " has been added for user: " + userName);
+            System.out.println("Update task content to '"+taskContent+"' of task " + taskId +" of list " + listId + " has been added for user: " + userName);
             return Response.ok(msg).build();
         }
         else{
-            System.out.println("Updating task content to "+taskContent+" of task " +taskId +" of  list " +listId + "for user: "+ userName + "has failed");
+            System.out.println("Updating task content to '"+taskContent+"' of task " +taskId +" of  list " +listId + "for user: "+ userName + "has failed");
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(msg)
                     .build();
@@ -128,9 +133,10 @@ public class TaskResource {
 
         String msg = "";
         String userName = task.getUsername();
-        String listId = task.getListId();
-        String taskStatus = task.getTaskstatus();
-        String taskId = task.getTaskId();
+        String listId = task.getListid();
+        String taskStatus = task.getStatus();
+        String taskId = task.getTaskid();
+        System.out.println("*************************************************");
         System.out.println(task.toString());
         msg= databaseConnection.updateTaskStatus(userName,listId,taskStatus,taskId);
         if(msg.contains("Successfully")){

@@ -1,38 +1,38 @@
 package edu.uwb.css533.service.resources;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UpdateTaskStatus {
-    String username;
-    String listid;
-    String taskid;
-    String taskstatus;
+    private String username;
+    private String listid;
+    private String taskid;
+    private String status;
 
-
-    @JsonProperty("username")
+    @JsonGetter("username")
     public String getUsername() {
         return username;
     }
-    @JsonProperty("listid")
-    public String getListId() {
+    @JsonGetter("listid")
+    public String getListid() {
         return listid;
     }
-    @JsonProperty("taskid")
-    public String getTaskId() {
+    @JsonGetter("taskid")
+    public String getTaskid() {
         return taskid;
     }
-    @JsonProperty("status")
-    public String getTaskstatus() {
-        return taskstatus;
+    @JsonGetter("status")
+    public String getStatus() {
+        return status;
     }
 
     @Override
     public String toString() {
-        return "UpdateTaskStatus{" +
+        return "UpdateContent{" +
                 "username='" + username + '\'' +
                 ", listid='" + listid + '\'' +
                 ", taskid='" + taskid + '\'' +
-                ", taskstatus='" + taskstatus + '\'' +
+                ", content='" + status + '\'' +
                 '}';
     }
 }

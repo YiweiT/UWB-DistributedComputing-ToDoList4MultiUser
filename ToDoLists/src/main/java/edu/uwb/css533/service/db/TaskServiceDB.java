@@ -284,7 +284,7 @@ public class TaskServiceDB extends ListServiceDB {
             return listUpdate;
         }
 
-        return "Successfully updated task status: "+status+"for task "+task_id;
+        return "Successfully updated task status: "+status+" for task "+task_id;
     }
     public String updateListDate(String listid){
         String sql = "UPDATE Lists SET LAST_MODIFIED_DATE=NOW() WHERE listid=?;";
