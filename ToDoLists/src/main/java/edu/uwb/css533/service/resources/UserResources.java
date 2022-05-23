@@ -11,8 +11,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Date;
 
-
-// http://server:port/path?para=something
+/**
+ * This is the user service.
+ * APIs:
+ *  1. POST Add user
+ *  2. GET Log in
+ *  3. PUT Change password
+ */
+// http://localhost:8080/users....
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResources {
@@ -38,9 +44,6 @@ public class UserResources {
         dbConnection.connect();
     }
 
-
-
-
     @POST
     @Path("/addUser")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -52,9 +55,7 @@ public class UserResources {
      *      - both parameter should be non empty or null
      *      - username is not duplicated in Users table
      */
-    public Response addUser(User user
-            /*@QueryParam("username") String username,
-                            @QueryParam("password") String password*/) {
+    public Response addUser(User user) {
 
         String username = user.getUsername();
         String password = user.getPassword();
@@ -125,6 +126,7 @@ public class UserResources {
 
     @PUT
     @Path("/changePassword")
+    // change the current password to the new one
     public Response changePassword (ChangePwd changePwd) {
         String username = changePwd.getUsername();
         String oldPassword = changePwd.getOldPassword();

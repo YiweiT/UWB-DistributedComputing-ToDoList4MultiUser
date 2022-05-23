@@ -8,6 +8,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is to connect to the database tier and execute sql query to check and fetch result
+ * The result will be sent to service side and then response to client request
+ *
+ * This class is for User service only
+ */
 public class UserServiceDB extends DatabaseConnection {
 
 

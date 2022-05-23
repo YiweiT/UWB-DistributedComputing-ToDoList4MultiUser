@@ -17,17 +17,12 @@ class UserResourcesTest {
     @org.junit.jupiter.api.Test
     void addUser() {
         // normal execution
-
         Assert.assertEquals(200,
                 userResources.addUser(new User("user1", "password1")).getStatus() /*actual value*/);
         // error condition 1: duplicated username
-
         Assert.assertEquals(400 /*expected value*/,
-                userResources.addUser(new User("user1", "password1")).getStatus() /*actual value*/
-        );
-
+                userResources.addUser(new User("user1", "password1")).getStatus() /*actual value*/);
         // error condition 2: invalid username
-
         Assert.assertEquals(400,
                 userResources.addUser(new User("", "password1")).getStatus() /*actual value*/);
         // error condition 3: invalid password

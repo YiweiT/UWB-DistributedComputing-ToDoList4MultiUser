@@ -65,6 +65,7 @@ public class DatabaseConnection {
 
     }
 
+    // Create a function to auto update last_modified_date for Lists and Tasks table
     private void autoUpdateModifiedFunc() {
         String sql =
                 "CREATE OR REPLACE FUNCTION update_modified_column()"
@@ -91,6 +92,7 @@ public class DatabaseConnection {
         }
     }
 
+    // Create users_info table
     private void createUserTable() {
         String sql = "CREATE TABLE IF NOT EXISTS USERS_INFO ("
                 + "USERNAME VARCHAR(255) PRIMARY KEY,"
@@ -108,6 +110,7 @@ public class DatabaseConnection {
         }
     }
 
+    // Create Lists table
     private void createListTable() {
         String sql = "CREATE TABLE IF NOT EXISTS LISTS ("
                 +"LISTID SERIAL PRIMARY KEY,"
@@ -126,6 +129,7 @@ public class DatabaseConnection {
         }
     }
 
+    // Create tasks table
     private void createTaskTable() {
         String sql = "CREATE TABLE IF NOT EXISTS TASKS ("
                 +"TASKID SERIAL PRIMARY KEY,"
@@ -147,6 +151,7 @@ public class DatabaseConnection {
         }
     }
 
+    // Drop tables in testdb
     private void dropTestTables() {
         String sql = "DROP TABLE IF EXISTS TASKS;" +
                 "DROP TABLE IF EXISTS LISTS;" +
@@ -161,62 +166,5 @@ public class DatabaseConnection {
             System.out.println("Error: Failed to drop tables for testdb\n" + e.getMessage());
         }
     }
-//    private void createUserTableTEST() {
-//        String sql = "CREATE TABLE USERS_INFO ("
-//                + "USERNAME VARCHAR(255) PRIMARY KEY,"
-//                + "PASSWORD VARCHAR (255) NOT NULL,"
-//                + "LISTIDS TEXT[]);";
-//
-//        try {
-//            PreparedStatement statement = connection.prepareStatement(sql);
-//
-//            int rows = statement.executeUpdate();
-//            System.out.println("Successfully create Users_info table\n"
-//                    + "result from executeUpdate: " + Integer.toString(rows));
-//        } catch (SQLException e) {
-//            System.out.println("Error: Unable to create table Users_info\n" + e.getMessage());
-//        }
-//    }
-//
-//    private void createListTableTEST() {
-//        String sql = "DROP TABLE IF EXISTS LISTS;" +
-//                "CREATE TABLE IF NOT EXISTS LISTS ("
-//                +"LISTID SERIAL PRIMARY KEY,"
-//                +"LISTNAME VARCHAR (255) NOT NULL,"
-//                +"LIST_TYPE VARCHAR (20) DEFAULT 'individual',"
-//                +"LAST_MODIFIED_DATE TIMESTAMPTZ NOT NULL DEFAULT NOW());";
-//
-//        try {
-//            PreparedStatement statement = connection.prepareStatement(sql);
-//
-//            int rows = statement.executeUpdate();
-//            System.out.println("Successfully create Lists table\n"
-//                    + "result from executeUpdate: " + Integer.toString(rows));
-//        } catch (SQLException e) {
-//            System.out.println("Error: Unable to create table Lists\n" + e.getMessage());
-//        }
-//    }
-//
-//    private void createTaskTableTEST() {
-//        String sql = "DROP TABLE IF EXISTS TASKS;" +
-//                "CREATE TABLE IF NOT EXISTS TASKS ("
-//                +"TASKID SERIAL PRIMARY KEY,"
-//                +"TASKNAME VARCHAR (255) NOT NULL,"
-//                +"CONTENT TEXT,"
-//                +"STATUS VARCHAR (20) NOT NULL DEFAULT 'Not Started',"
-//                +"LISTID SERIAL NOT NULL,"
-//                +"LAST_MODIFIED_DATE TIMESTAMPTZ NOT NULL DEFAULT NOW(),"
-//                +"FOREIGN KEY (LISTID) REFERENCES LISTS (LISTID));";
-//
-//        try {
-//            PreparedStatement statement = connection.prepareStatement(sql);
-//
-//            int rows = statement.executeUpdate();
-//            System.out.println("Successfully create Tasks table\n"
-//                    + "result from executeUpdate: " + Integer.toString(rows));
-//        } catch (SQLException e) {
-//            System.out.println("Error: Unable to create table Tasks\n" + e.getMessage());
-//        }
-//    }
 
 }
