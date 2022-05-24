@@ -1,5 +1,6 @@
 package edu.uwb.css533.service.resources;
 
+import edu.uwb.css533.service.db.UserServiceDB;
 import edu.uwb.css533.service.resources.RequestObjects.ChangePwd;
 import edu.uwb.css533.service.resources.RequestObjects.User;
 import org.junit.Assert;
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserResourcesTest {
 
     UserResources userResources = new UserResources("testdb");
+    UserServiceDB db = new UserServiceDB("testdb");
     @org.junit.jupiter.api.Test
     void dbCheck() {
         userResources.dbConnectionCheck();
@@ -16,6 +18,8 @@ class UserResourcesTest {
 
     @org.junit.jupiter.api.Test
     void addUser() {
+        db.dropTestTables();
+        db.createTables();
         // normal execution
         Assert.assertEquals(200,
                 userResources.addUser(new User("user1", "password1")).getStatus() /*actual value*/);
@@ -32,6 +36,8 @@ class UserResourcesTest {
 
     @org.junit.jupiter.api.Test
     void logIn() {
+        db.dropTestTables();
+        db.createTables();
         userResources.addUser(new User("user2", "password2"));
         // normal execution
         Assert.assertEquals(200,
@@ -52,6 +58,8 @@ class UserResourcesTest {
 
     @org.junit.jupiter.api.Test
     void resetPassword() {
+        db.dropTestTables();
+        db.createTables();
         userResources.addUser(new User("user3", "password3"));
         userResources.logIn("user3", "password3");
 

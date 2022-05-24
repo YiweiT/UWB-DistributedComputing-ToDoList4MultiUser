@@ -51,7 +51,7 @@ public class Client {
                     .build();
             HttpResponse<String>  response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            System.out.println(response.body());
+//            System.out.println(response.body());
             if (isValidJson(String.valueOf(response.body()))) {
                 ObjectMapper mapper = new ObjectMapper();
 
@@ -74,52 +74,6 @@ public class Client {
         }
     }
 
-//    private static int doPut1(String link, String payload) {
-//        HttpURLConnection connection = null;
-//        try {
-//            // create connection
-//            URL url = new URL(link);
-//            connection = (HttpURLConnection) url.openConnection();
-//            connection.setRequestMethod("PUT");
-//            connection.setRequestProperty("Content-Type",
-//                    "application/json; charset=UTF-8");
-//            connection.setRequestProperty("Accept", "application/json");
-//            connection.setDoOutput(true);
-//            OutputStream os = connection.getOutputStream();
-////            byte[] input = payload.getBytes("utf-8");
-//            os.write(payload.getBytes(StandardCharsets.UTF_8));
-//
-//            // read the response from input stream
-//            BufferedReader br = new BufferedReader(
-//                    new InputStreamReader(connection.getInputStream(), "utf-8"));
-//            StringBuilder response = new StringBuilder();
-//            String responseLine = null;
-//            while ((responseLine = br.readLine()) != null) {
-//                response.append(responseLine.trim());
-//            }
-//            if (isValidJson(String.valueOf(response))) {
-//                ObjectMapper mapper = new ObjectMapper();
-//
-//                System.out.println(mapper.writerWithDefaultPrettyPrinter()
-//                        .writeValueAsString(mapper.readTree(String.valueOf(response))));
-//            } else {
-//                System.out.println(response.toString());
-//            }
-//
-//            connection.disconnect();
-//            return connection.getResponseCode();
-//
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//            System.out.println("Malformed URL Exception: " + e.getMessage());
-//            return -1;
-//
-//        } catch (IOException e) {
-//            System.out.println("IO Exceptions: " + e.getMessage());
-//            return -1;
-//        }
-//    }
-
     private static int doPut(String link, String payload) {
         try {
             HttpClient client = HttpClient.newBuilder()
@@ -133,7 +87,7 @@ public class Client {
                     .PUT(HttpRequest.BodyPublishers.ofString(payload))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
+
             if (isValidJson(String.valueOf(response.body()))) {
                 ObjectMapper mapper = new ObjectMapper();
 
@@ -168,7 +122,7 @@ public class Client {
                     .POST(HttpRequest.BodyPublishers.ofString(payload))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
+
             if (isValidJson(String.valueOf(response.body()))) {
                 ObjectMapper mapper = new ObjectMapper();
 
@@ -189,53 +143,6 @@ public class Client {
             return -1;
         }
     }
-
-//    private static int doPost1(String link, String payload) {
-//        HttpURLConnection connection = null;
-//        try {
-//            // create connection
-//            URL url = new URL(link);
-//            connection = (HttpURLConnection) url.openConnection();
-//            connection.setRequestMethod("POST");
-//            connection.setRequestProperty("Content-Type",
-//                    "application/json; charset=UTF-8");
-//            connection.setRequestProperty("Accept", "application/json");
-//            connection.setDoOutput(true);
-//            OutputStream os = connection.getOutputStream();
-////            byte[] input = payload.getBytes("utf-8");
-//            os.write(payload.getBytes(StandardCharsets.UTF_8));
-//
-//            // read the response from input stream
-//            BufferedReader br = new BufferedReader(
-//                    new InputStreamReader(connection.getInputStream(), "utf-8"));
-//            StringBuilder response = new StringBuilder();
-//            String responseLine = null;
-//            while ((responseLine = br.readLine()) != null) {
-//                response.append(responseLine.trim());
-//            }
-//            if (isValidJson(String.valueOf(response))) {
-//                ObjectMapper mapper = new ObjectMapper();
-//
-//                System.out.println(mapper.writerWithDefaultPrettyPrinter()
-//                        .writeValueAsString(mapper.readTree(String.valueOf(response))));
-//            } else {
-//                System.out.println(response.toString());
-//            }
-//
-//            connection.disconnect();
-//            return connection.getResponseCode();
-//
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//            System.out.println("Malformed URL Exception: " + e.getMessage());
-//            return -1;
-//        }
-//        catch (IOException e) {
-//            System.out.println("IO Exceptions: " + e.getMessage());
-//            return -1;
-//        }
-//    }
-
 
 
     public static void main(String[] args) {
@@ -291,10 +198,10 @@ public class Client {
                 jsonObject.put("content", taskContent);
                 jsonObject.put("taskid", currentTaskId);
                 String request = url + "/tasks/updateTaskContent";
-                System.out.println(request);
-                System.out.println(jsonObject.toString());
+//                System.out.println(request);
+//                System.out.println(jsonObject.toString());
                 if (doPut(request, jsonObject.toString()) == 200) {
-                    System.out.println("Successfully update task content, do you want to try something else in this task? (Yes/No)");
+                    System.out.println("Successfully update task content.\nDo you want to try something else in this task? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitTaskService = false;
@@ -303,7 +210,7 @@ public class Client {
                         System.out.println("Coming back to the current ToDoList menu......");
                     }
                 } else {
-                    System.out.println("Update task content failed for some reasons,Do you want to try something else in this task? (Yes/No)");
+                    System.out.println("Update task content failed for some reasons.\nDo you want to try something else in this task? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitTaskService = false;
@@ -327,7 +234,7 @@ public class Client {
                 System.out.println(request);
                 System.out.println(jsonObject.toString());
                 if (doPut(request, jsonObject.toString()) == 200) {
-                    System.out.println("Successfully update task status, do you want to try something else in this task? (Yes/No)");
+                    System.out.println("Successfully update task status.\ndo you want to try something else in this task? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitTaskService = false;
@@ -336,7 +243,7 @@ public class Client {
                         System.out.println("Coming back to the current ToDoList menu......");
                     }
                 } else {
-                    System.out.println("Update task status failed for some reasons,Do you want to try something else in this task? (Yes/No)");
+                    System.out.println("Update task status failed for some reasons.\nDo you want to try something else in this task? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitTaskService = false;
@@ -354,7 +261,7 @@ public class Client {
                 System.out.println(request);
 
                 if (doGet(request) == 200) {
-                    System.out.println("Successfully display task details, do you want to try something else in this task? (Yes/No)");
+                    System.out.println("Successfully display task details.\nDo you want to try something else in this task? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitTaskService = false;
@@ -363,7 +270,7 @@ public class Client {
                         System.out.println("Coming back to the current ToDoList menu......");
                     }
                 } else {
-                    System.out.println("Display task details failed for some reasons,Do you want to try something else in this task? (Yes/No)");
+                    System.out.println("Display task details failed for some reasons.\nDo you want to try something else in this task? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitTaskService = false;
@@ -414,7 +321,7 @@ public class Client {
                 String request = url + "/lists/" + username + "/checkAccess/" + currentListId;
                 System.out.println(request);
                 if (doGet(request) == 200) {
-                    System.out.println("Successfully returned checkAccess, do you want to try something else in this list? (Yes/No)");
+                    System.out.println("Successfully returned checkAccess.\nDo you want to try something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -425,7 +332,7 @@ public class Client {
                     }
 
                 } else {
-                    System.out.println("CheckAccess failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    System.out.println("CheckAccess failed for some reasons.\nDo you want to try something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -443,7 +350,7 @@ public class Client {
                 String request = url + "/lists/" + username + "/grantAccess/" + currentListId;
                 System.out.println(request);
                 if (doGet(request) == 200) {
-                    System.out.println("Successfully returned grantAccess, do you want to try something else in this list? (Yes/No)");
+                    System.out.println("Successfully returned grantAccess.\nDo you want to try something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -454,7 +361,7 @@ public class Client {
                     }
 
                 } else {
-                    System.out.println("GrantAccess failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    System.out.println("GrantAccess failed for some reasons.\nDo you want to try something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -476,7 +383,7 @@ public class Client {
                         System.out.println("You removed yourself from current list, routing back to main menu......");
                         quitSingleListService = true;
                     } else {
-                        System.out.println("Successfully returned removeAccess, do you want to try something else in this list? (Yes/No)");
+                        System.out.println("Successfully returned removeAccess.\nDo you want to try something else in this list? (Yes/No)");
                         String response = scanner.nextLine().toLowerCase().trim();
                         if (response.equals("yes")) {
                             quitSingleListService = false;
@@ -488,7 +395,7 @@ public class Client {
                     }
 
                 } else {
-                    System.out.println("RemoveAccess failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    System.out.println("RemoveAccess failed for some reasons.\nDo you want to try something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -504,7 +411,7 @@ public class Client {
                 String request = url + "/lists/getAllUsers/"  + currentListId;
                 System.out.println(request);
                 if (doGet(request) == 200) {
-                    System.out.println("Successfully returned all users of this ToDoList, do you want to try something else in this list? (Yes/No)");
+                    System.out.println("Successfully returned all users of this ToDoList.\nDo you want to try something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -515,7 +422,7 @@ public class Client {
                     }
 
                 } else {
-                    System.out.println("Get all users failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    System.out.println("Get all users failed for some reasons.\nDo you want to try something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -532,7 +439,7 @@ public class Client {
                 String request = url + "/tasks/displayAllTasksNames?" + query;
                 System.out.println(request);
                 if (doGet(request) == 200) {
-                    System.out.println("Successfully displayed all tasks of this ToDoList, do you want to try something else in this list? (Yes/No)");
+                    System.out.println("Successfully displayed all tasks of this ToDoList.\no you want to try something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -543,7 +450,7 @@ public class Client {
                     }
 
                 } else {
-                    System.out.println("Display all tasks failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    System.out.println("Display all tasks failed for some reasons.\nDo you want to try something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -570,7 +477,7 @@ public class Client {
                 System.out.println(jsonObject.toString());
 
                 if (doPost2(request, jsonObject.toString()) == 200) {
-                    System.out.println("Successfully add a task, do you want totry something else in this list? (Yes/No)");
+                    System.out.println("Successfully add a task.\nDo you want totry something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -579,7 +486,7 @@ public class Client {
                         System.out.println("Coming back to the ToDoLists main menu......");
                     }
                 } else {
-                    System.out.println("Add this task failed for some reasons, Do you want to try something else in this list? (Yes/No)");
+                    System.out.println("Add this task failed for some reasons.\nDo you want to try something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -598,7 +505,7 @@ public class Client {
                 String request = url + "/tasks/deleteTask?" + query;
                 System.out.println(request);
                 if (doGet(request) == 200) {
-                    System.out.println("Successfully delete the task from this ToDoList, do you want to try something else in this list? (Yes/No)");
+                    System.out.println("Successfully delete the task from this ToDoList.\nDo you want to try something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -609,7 +516,7 @@ public class Client {
                     }
 
                 } else {
-                    System.out.println("Deleting this task failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    System.out.println("Deleting this task failed for some reasons.\nDo you want to try something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -627,7 +534,7 @@ public class Client {
                 String request = url + "/tasks/deleteAllTasks?" + query;
                 System.out.println(request);
                 if (doGet(request) == 200) {
-                    System.out.println("Successfully delete all tasks from this ToDoList, do you want to try something else in this list? (Yes/No)");
+                    System.out.println("Successfully delete all tasks from this ToDoList.\nDo you want to try something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -638,7 +545,7 @@ public class Client {
                     }
 
                 } else {
-                    System.out.println("Deleting all tasks failed for some reasons,Do you want to try something else in this list? (Yes/No)");
+                    System.out.println("Deleting all tasks failed for some reasons.\nDo you want to try something else in this list? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitSingleListService = false;
@@ -705,7 +612,7 @@ public class Client {
                 String request = url + "/lists/getAllLists?" + query;
                 System.out.println(request);
                 if (doGet(request) == 200) {
-                    System.out.println("Successfully display all your ToDoLists, do you want to come back to the main menu? (Yes/No)");
+                    System.out.println("Successfully display all your ToDoLists.\nDo you want to come back to the main menu? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitListsService = false;
@@ -715,7 +622,7 @@ public class Client {
                     }
 
                 } else {
-                    System.out.println("Display all your ToDoLists failed for some reasons,Do you want to come back to the main menu? (Yes/No)");
+                    System.out.println("Display all your ToDoLists failed for some reasons.\nDo you want to come back to the main menu? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitListsService = false;
@@ -738,7 +645,7 @@ public class Client {
                 System.out.println(request);
                 System.out.println(jsonObject.toString());
                 if (doPost2(request, jsonObject.toString()) == 200) {
-                    System.out.println("Successfully add a ToDoList, do you want to come back to the main menu? (Yes/No)");
+                    System.out.println("Successfully add a ToDoList.\nDo you want to come back to the main menu? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitListsService = false;
@@ -748,7 +655,7 @@ public class Client {
                     }
 
                 } else {
-                    System.out.println("Adding a ToDoList failed for some reasons,Do you want to come back to the main menu? (Yes/No)");
+                    System.out.println("Adding a ToDoList failed for some reasons.\nDo you want to come back to the main menu? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitListsService = false;
@@ -767,7 +674,7 @@ public class Client {
                 String request = url + "/lists/deleteList?" + query;
                 System.out.println(request);
                 if (doGet(request) == 200) {
-                    System.out.println("Successfully delete a ToDoList, do you want to come back to the main menu? (Yes/No)");
+                    System.out.println("Successfully delete a ToDoList.\nDo you want to come back to the main menu? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitListsService = false;
@@ -777,7 +684,7 @@ public class Client {
                     }
 
                 } else {
-                    System.out.println("Deleting a ToDoList failed for some reasons,Do you want to come back to the main menu? (Yes/No)");
+                    System.out.println("Deleting a ToDoList failed for some reasons.\nDo you want to come back to the main menu? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitListsService = false;
@@ -795,7 +702,7 @@ public class Client {
                 String request = url + "/lists/deleteAllLists?" + query;
                 System.out.println(request);
                 if (doGet(request) == 200) {
-                    System.out.println("Successfully delete all your ToDoLists, do you want to come back to the main menu? (Yes/No)");
+                    System.out.println("Successfully delete all your ToDoLists.\nDo you want to come back to the main menu? (Yes/No)");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitListsService = false;
@@ -805,7 +712,7 @@ public class Client {
                     }
 
                 } else {
-                    System.out.println("Deleting all your ToDoLists failed for some reasons,Do you want to come back to the main menu? (Yes/No");
+                    System.out.println("Deleting all your ToDoLists failed for some reasons.\nDo you want to come back to the main menu? (Yes/No");
                     String response = scanner.nextLine().toLowerCase().trim();
                     if (response.equals("yes")) {
                         quitListsService = false;
@@ -942,8 +849,6 @@ public class Client {
         user.put("oldPassword", oldPassword);
         user.put("newPassword", newPassword);
         return user.toString();
-//        return String.format("username=%s&oldPassword=%s&newPassword=%s");
-
     }
 
     private static boolean isValidJson(String json) {
@@ -951,10 +856,9 @@ public class Client {
         try {
             mapper.readTree(json);
         } catch (IOException e) {
-            System.out.println("Invalid JSON object or array");
+
             return false;
         }
-        System.out.println("Valid JSON object or array");
         return true;
     }
 }

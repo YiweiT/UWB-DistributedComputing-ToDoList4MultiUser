@@ -21,10 +21,15 @@ import org.json.JSONObject;
  */
 public class ListServiceDB extends DatabaseConnection{
     public ListServiceDB() {
+
+        this.db = super.db;
     }
 
+    String db;
     public ListServiceDB(String db) {
         super(db);
+        this.db = db;
+        System.out.println("ListServiceDB constructs");
     }
 
     // check whether the given listid is exsting in Lists table
@@ -42,7 +47,7 @@ public class ListServiceDB extends DatabaseConnection{
                     cnt = rs.getInt(1);
 //
                 }
-                System.out.println("count of " + listid + " in lists table is: " + cnt);
+//                System.out.println("count of " + listid + " in lists table is: " + cnt);
                 if (cnt > 0) {
                     return 1;
                 } else {
@@ -50,7 +55,7 @@ public class ListServiceDB extends DatabaseConnection{
                 }
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println("Error:" + e.getMessage());
                 return -1;
             }
         }
@@ -66,7 +71,7 @@ public class ListServiceDB extends DatabaseConnection{
     public String checkAccess(String username, String listid) {
         if (isConnected()) {
             int existing = isExisting(listid);
-            System.out.println("checkAccess: " + existing);
+//            System.out.println("checkAccess: " + existing);
             if (existing == 1) {
                 String sql = "SELECT COUNT(*) FROM users_info where ? = ANY(listids) AND username=?;";
                 try {
@@ -81,17 +86,21 @@ public class ListServiceDB extends DatabaseConnection{
                         cnt = rs.getInt(1);
                     }
                     if (cnt < 1) {
+                        System.out.println(String.format("Error: %s cannot access %s.", username, listid));
                         return String.format("Error: %s cannot access %s.", username, listid);
                     }
-
+                    System.out.println(String.format("%s can access %s.", username, listid));
                     return String.format("%s can access %s.", username, listid);
                 } catch (SQLException e) {
+                    System.out.println("Error: " + e.getMessage());
                     return "Error: " + e.getMessage();
                 }
             } else if (existing == 0) {
+                System.out.println("Error: no such list exists.");
                 return "Error: no such list exists.";
             } else {
-                return "Error: unable to access.";
+                System.out.println(String.format("Error: check listid (%s) existing failed.", listid));
+                return String.format("Error: check listid (%s) existing failed.", listid);
             }
 
         } else {
@@ -120,20 +129,26 @@ public class ListServiceDB extends DatabaseConnection{
                     statement.setString(2, username);
 
                     int rows = statement.executeUpdate();
-                    System.out.println("row updated: " + rows);
+//                    System.out.println("row updated: " + rows);
                     if (rows > 0) {
+                        System.out.println(String.format("Successfully granted access! Now %s can access %s", username, listid));
                         return String.format("Successfully granted access! Now %s can access %s", username, listid);
                     }
+                    System.out.println("Error: " + username + " does not exist.");
                     return "Error: " + username + " does not exist.";
                 } catch (SQLException e) {
+                    System.out.println("Error: " + e.getMessage());
                     return "Error: " + e.getMessage();
                 }
             } else if (checkAccessMsg.contains("can access")) {
+                System.out.println(String.format("%s already has access to %s", username, listid));
                 return String.format("%s already has access to %s", username, listid);
             } else {
+                System.out.println(checkAccessMsg);
                 return checkAccessMsg;
             }
         } else {
+            System.out.println("Error: Unable to connect " + url);
             return "Error: Unable to connect " + url;
         }
     }
@@ -152,7 +167,7 @@ public class ListServiceDB extends DatabaseConnection{
     public String removeAccess(String username, String listid) {
         if (isConnected()) {
             String checkAccessMsg = checkAccess(username, listid);
-            System.out.println("remove access " + checkAccessMsg);
+//            System.out.println("remove access " + checkAccessMsg);
             if (checkAccessMsg.contains("can access")) {
                 String sql = "UPDATE users_info SET listids = array_remove(listids,?) WHERE username=?;";
                 try {
@@ -161,16 +176,21 @@ public class ListServiceDB extends DatabaseConnection{
                     statement.setString(2, username);
 
                     int rows = statement.executeUpdate();
+                    System.out.println(String.format("Successfully removed access! Now %s cannot access %s", username, listid));
                     return String.format("Successfully removed access! Now %s cannot access %s", username, listid);
                 } catch (SQLException e) {
+                    System.out.println("Error: " + e.getMessage());
                     return "Error: " + e.getMessage();
                 }
             } else if (checkAccessMsg.contains("cannot access")) {
+                System.out.println(String.format("%s does not have access to %s", username, listid));
                 return String.format("%s does not have access to %s", username, listid);
             } else {
+                System.out.println(checkAccessMsg);
                 return checkAccessMsg;
             }
         } else {
+            System.out.println("Error: Unable to connect " + url);
             return "Error: Unable to connect " + url;
         }
     }
@@ -188,18 +208,23 @@ public class ListServiceDB extends DatabaseConnection{
                 PreparedStatement stmt = connection.prepareStatement(sql);
                 stmt.setString(1, listid);
                 ResultSet rs = stmt.executeQuery();
-
-                List<String> users = new ArrayList<>();
-                while (rs.next()) {
-                    users.add(rs.getString("username"));
+                if (rs.isBeforeFirst()) {
+                    List<String> users = new ArrayList<>();
+                    while (rs.next()) {
+                        users.add(rs.getString("username"));
+                    }
+                    System.out.println(users.toString());
+                    return users.toString();
                 }
-                return users.toString();
+                System.out.println(String.format("Error: No such list () exists.", listid));
+                return String.format("Error: No such list () exists.", listid);
+
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println("Error: " + e.getMessage());
                 return "Error: " + e.getMessage();
             }
         } else {
-
+            System.out.println("Error: Unable to connect " + url);
             return "Error: Unable to connect " + url;
         }
     }
@@ -220,32 +245,41 @@ public class ListServiceDB extends DatabaseConnection{
                 ResultSet rs = stmt.executeQuery();
                     boolean deleteSucceed = true;
                     String deleteMsg = "";
-                    System.out.println("delete all lists");
+
+                    if (!rs.isBeforeFirst()) {
+                        System.out.println(String.format("Error: No such user () exists.", userId));
+                        return String.format("Error: No such user () exists.", userId);
+                    }
                     while (rs.next()) {
                         Array result = rs.getArray(1);
-                        String[] result_2 = (String[]) result.getArray();
-                        System.out.println( "Result array: "+ result_2.toString());
-                        if (result_2.length == 0) {
-
+                        if (result != null) {
+                            String[] result_2 = (String[]) result.getArray();
+//                            System.out.println( "Result array: "+ result_2.toString());
+                            int i = 0;
+                            while(i < result_2.length && deleteSucceed) {
+                                deleteMsg = deleteList2(userId,result_2[i]);
+//                                System.out.println(deleteMsg);
+                                if (!deleteMsg.contains("Successfully")){
+                                    deleteSucceed = false;
+                                    System.out.println(deleteMsg);
+                                    return deleteMsg;
+                                }
+                                i ++;
+                            }
+                        } else {
                             System.out.println(String.format("No list under the user (%s).", userId));
                             return String.format("No list under the user (%s).", userId);
                         }
-                        int i = 0;
-                        while(i < result_2.length && deleteSucceed) {
-                            deleteMsg = deleteList2(userId,result_2[i]);
-                            System.out.println(deleteMsg);
-                            if (!deleteMsg.contains("Successfully")){
-                                deleteSucceed = false;
-                                return deleteMsg;
-                            }
-                            i ++;
-                        }
+
                     }
-                    return String.format("Successfully delete all lists under by %s", userId);
+                System.out.println(String.format("Successfully delete all lists under by %s", userId));
+                return String.format("Successfully delete all lists under by %s", userId);
             }catch(SQLException e) {
+                System.out.println("Error: " + e.getMessage());
                 return "Error: " + e.getMessage();
             }
         } else {
+            System.out.println("Error: Unable to connect " + url);
             return "Error: Unable to connect " + url;
         }
     }
@@ -260,7 +294,7 @@ public class ListServiceDB extends DatabaseConnection{
      * - if grant access failed: access error
      * - success message
      */
-    public String addList(String username, String listname) throws SQLException {
+    public String addList(String username, String listname) {
         if (isConnected()) {
             // check whether the listname is unique for this username
             if (!isExistingListname(username, listname)) {
@@ -280,16 +314,20 @@ public class ListServiceDB extends DatabaseConnection{
                     // grant user access to listid
                     String grantAccessMsg = grantAccess(username, listid);
                     if (grantAccessMsg.contains("Error")) {
-                        return "Error: Unable to create list";
+                        return grantAccessMsg;
                     }
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("Message", "Successfully create list: " + listname);
                     jsonObject.put("listid", listid);
+                    System.out.println(jsonObject.toString(2));
                     return jsonObject.toString();
                 } catch (SQLException e) {
+                    System.out.println("Error: " + e.getMessage());
                     return "Error: " + e.getMessage();
                 }
             }
+            System.out.println( String.format(
+                    "Error: listname (%s) has been taken. Please choose another listname", listname));
             return String.format(
                     "Error: listname (%s) has been taken. Please choose another listname", listname);
         } else {
@@ -307,9 +345,9 @@ public class ListServiceDB extends DatabaseConnection{
      * @return true if the listname exists under the given username. False otherwise
      * @throws SQLException
      */
-    private boolean isExistingListname(String username, String listname) throws SQLException {
+    private boolean isExistingListname(String username, String listname) {
         if (isConnected()) {
-            System.out.println("isExistingListname " + username + ", " + listname);
+//            System.out.println("isExistingListname " + username + ", " + listname);
             String sql1 = "SELECT COUNT(*) FROM(SELECT l.listname FROM "
                     + "(SELECT UNNEST(listids)::INTEGER AS listid FROM "
                     + "Users_info Where username = ?) AS i "
@@ -324,7 +362,7 @@ public class ListServiceDB extends DatabaseConnection{
                 int cnt = 0;
                 while (rs.next()) {
                     cnt = rs.getInt(1);
-                    System.out.println(cnt);
+//                    System.out.println(cnt);
                 }
                 if (cnt > 0) {
                     System.out.println(listname + " exists in " + username);
@@ -355,16 +393,18 @@ public class ListServiceDB extends DatabaseConnection{
      */
     public String deleteList2(String username, String listid) {
         if (isConnected()) {
-            System.out.println("delete " + listid + " requested by " + username);
+//            System.out.println("delete " + listid + " requested by " + username);
             // check whether the listid accessible by user
             String accessMsg = checkAccess(username, listid);
             if (accessMsg.contains("cannot access")) {
+                System.out.println(accessMsg);
                 return accessMsg;
             }
             // delete all tasks under such list
-            TaskServiceDB taskServiceDB = new TaskServiceDB();
+            TaskServiceDB  taskServiceDB = new TaskServiceDB(db);
             String taskDeletion = taskServiceDB.deleteAllTasks(username, listid);
             if (!taskDeletion.contains("Successfully")) {
+                System.out.println(taskDeletion);
                 return taskDeletion;
             }
             // remove access for all users how can access listid to this listid
@@ -376,11 +416,11 @@ public class ListServiceDB extends DatabaseConnection{
             while (i < usernames.length && accessRemoved) {
                 String curUser = usernames[i].trim();
                 if (curUser.startsWith("[")) {
-                    System.out.println(curUser + " starts with ]");
+//                    System.out.println(curUser + " starts with ]");
                     curUser = curUser.substring(1);
                 }
                 if (curUser.endsWith("]")) {
-                    System.out.println(curUser + " ends with [");
+//                    System.out.println(curUser + " ends with [");
 
                     curUser = curUser.substring(0, curUser.length()-1);
                 }
@@ -396,6 +436,7 @@ public class ListServiceDB extends DatabaseConnection{
             }
 
             if (!accessRemoved) {
+                System.out.println(removeAccessMsg);
                 return removeAccessMsg;
             }
 
@@ -411,10 +452,11 @@ public class ListServiceDB extends DatabaseConnection{
                 System.out.println("delete successfully " + listid);
                 return "Successfully deleted " + listid;
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println("Error: " + e.getMessage());
                 return "Error: " + e.getMessage();
             }
         } else {
+            System.out.println("Error: Unable to connect to " + url);
             return "Error: Unable to connect to " + url;
         }
     }
@@ -438,7 +480,10 @@ public class ListServiceDB extends DatabaseConnection{
                 PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, username);
                 ResultSet rs = statement.executeQuery();
-
+                if (!rs.isBeforeFirst()) {
+                    System.out.println(String.format("User (%s) has no list.", username));
+                    return String.format("User (%s) has no list.", username);
+                }
                 JSONArray result = new JSONArray();
                 while(rs.next()) {
                     JSONObject row = new JSONObject();
@@ -446,11 +491,14 @@ public class ListServiceDB extends DatabaseConnection{
                     row.put("listname", rs.getString("listname"));
                     result.put(row);
                 }
+                System.out.println(result.toString(2));
                 return result.toString();
             } catch (SQLException e) {
+                System.out.println("Error: " + e.getMessage());
                 return "Error: " + e.getMessage();
             }
         } else {
+            System.out.println("Error: Unable to connect to " + url);
             return "Error: Unable to connect to " + url;
         }
     }

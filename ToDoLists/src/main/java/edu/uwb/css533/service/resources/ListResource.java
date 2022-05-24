@@ -77,7 +77,7 @@ public class ListResource {
     @POST
     @Path("/addList")
     public Response addList(
-            AddList list) throws SQLException {
+            AddList list) {
         String userName = list.getUsername();
         String listname = list.getListname();
 

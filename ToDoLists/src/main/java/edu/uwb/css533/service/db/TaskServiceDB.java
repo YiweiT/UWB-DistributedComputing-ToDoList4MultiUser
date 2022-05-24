@@ -21,6 +21,7 @@ public class TaskServiceDB extends ListServiceDB {
 
     public TaskServiceDB(String db) {
         super(db);
+
     }
 
     // check whether the given (taskid, listid) pair exists in Task table
@@ -152,7 +153,7 @@ public class TaskServiceDB extends ListServiceDB {
 
         boolean taskNameExist = checkDuplicate(task_name,list_id);
         if(taskNameExist){
-            System.out.println("Error: taskName has already exists for current list");
+            System.out.println(String.format("Error: %s has already exists for current list", task_name));
             jsonObject.put("Error", String.format("%s has already exists for current list.", task_name));
             return jsonObject.toString();
         }
@@ -295,7 +296,7 @@ public class TaskServiceDB extends ListServiceDB {
             connect();
         }
         if (connection == null) {
-            System.out.println(("Error: Unable to connect to database."));
+            System.out.println("Error: Unable to connect to database.");
             return "Error: Unable to connect to database.";
         }
         String sql_get_task_name = "SELECT TASKID, TASKNAME, CONTENT, STATUS FROM TASKS " +
@@ -305,7 +306,7 @@ public class TaskServiceDB extends ListServiceDB {
             stmt.setInt(1, Integer.parseInt(list_id));
             ResultSet rs = stmt.executeQuery();
 
-            System.out.println("Here is all your tasks:");
+
             JSONArray result = new JSONArray();
             while (rs.next()) {
 
@@ -316,12 +317,13 @@ public class TaskServiceDB extends ListServiceDB {
                 row.put("status", rs.getString("status"));
                 result.put(row);
 
-                System.out.println("Task Name: " + rs.getString("taskname"));
+
             }
             if (result.isEmpty()) {
                 System.out.println("No task found for current list.");
                 return "Error: No task found for current list.";
             }
+            System.out.println(result.toString(2));
             return result.toString();
         }catch(SQLException e){
             e.printStackTrace();
@@ -390,8 +392,8 @@ public class TaskServiceDB extends ListServiceDB {
     public String updateTaskStatus(String user_name, String list_id,String status, String task_id){
         boolean notAllowed = checkAccess(user_name,list_id).contains("Error");
         if(notAllowed){
-            System.out.println("Invalid user");
-            return "Invalid user";
+            System.out.println("Error: Invalid user");
+            return "Error: Invalid user";
         }
         if (connection == null) {
             connect();

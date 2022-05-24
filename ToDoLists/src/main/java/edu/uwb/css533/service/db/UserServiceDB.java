@@ -22,6 +22,7 @@ public class UserServiceDB extends DatabaseConnection {
 
     public UserServiceDB(String db) {
         super(db);
+        System.out.println("UserServiceDB constructs");
     }
 
     public String addUser(String username, String password) {

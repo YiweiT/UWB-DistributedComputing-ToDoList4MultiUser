@@ -36,17 +36,24 @@ public class DatabaseConnection {
         }
 
         connection = result;
-        if (this.db.contains("test")) {
-            dropTestTables();
-        }
-        createUserTable();
-        createListTable();
-        createTaskTable();
+//        if (this.db.contains("test")) {
+//            dropTestTables();
+//        }
+
 
         autoUpdateModifiedFunc();
         System.out.println("Connected to " + url);
     }
 
+    public void createTables() {
+        if(isConnected()) {
+            createUserTable();
+            createListTable();
+            createTaskTable();
+        } else {
+            System.out.println("Error: Unable to connect to db " + url);
+        }
+    }
     /**
      * Check whether the db is connected. If not connected, try to connect at max 3 times
      * @return true if connection is accomplished, false otherwise
@@ -83,9 +90,9 @@ public class DatabaseConnection {
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             int rows = statement.executeUpdate();
-            System.out.println(
-                    "Create or replace update_modified_column function " +
-                            "and create triggers for Lists and Tasks table");
+//            System.out.println(
+//                    "Create or replace update_modified_column function " +
+//                            "and create triggers for Lists and Tasks table");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -117,7 +124,6 @@ public class DatabaseConnection {
         String sql = "CREATE TABLE IF NOT EXISTS LISTS ("
                 +"LISTID SERIAL PRIMARY KEY,"
                 +"LISTNAME VARCHAR (255) NOT NULL,"
-                +"LIST_TYPE VARCHAR (20) DEFAULT 'individual',"
                 +"LAST_MODIFIED_DATE TIMESTAMPTZ NOT NULL DEFAULT NOW());";
 
         try {
@@ -158,19 +164,24 @@ public class DatabaseConnection {
     }
 
     // Drop tables in testdb
-    private void dropTestTables() {
-        String sql = "DROP TABLE IF EXISTS TASKS;" +
-                "DROP TABLE IF EXISTS LISTS;" +
-                "DROP TABLE IF EXISTS USERS_INFO;";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            int rows = statement.executeUpdate();
+    public void dropTestTables() {
+        if(isConnected()) {
+            String sql = "DROP TABLE IF EXISTS TASKS;" +
+                    "DROP TABLE IF EXISTS LISTS;" +
+                    "DROP TABLE IF EXISTS USERS_INFO;";
+            try {
+                PreparedStatement statement = connection.prepareStatement(sql);
+                int rows = statement.executeUpdate();
 
-            System.out.println("Dropped all tabls in testdb, " + rows);
+//                System.out.println("Dropped all tabls in testdb, " + rows);
 
-        } catch (SQLException e) {
-            System.out.println("Error: Failed to drop tables for testdb\n" + e.getMessage());
+            } catch (SQLException e) {
+                System.out.println("Error: Failed to drop tables for testdb\n" + e.getMessage());
+            }
+        } else {
+            System.out.println("Error: Unable to connect to db " +url);
         }
+
     }
 
 }
