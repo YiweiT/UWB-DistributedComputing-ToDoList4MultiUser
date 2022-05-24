@@ -96,7 +96,7 @@ public class TaskResource {
             @QueryParam("listid") String listId) {
         String msg = "";
         msg= databaseConnection.displayAllTaskNames(userName,listId);
-        if(msg.contains("Successfully")){
+        if(!msg.contains("Error")){
             System.out.println( " All task of list" + listId + " has been displayed for user: " + userName);
             return Response.ok(msg).build();
         }

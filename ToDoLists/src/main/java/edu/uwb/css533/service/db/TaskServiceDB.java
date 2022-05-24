@@ -320,12 +320,12 @@ public class TaskServiceDB extends ListServiceDB {
             }
             if (result.isEmpty()) {
                 System.out.println("No task found for current list.");
-                return "No task found for current list.";
+                return "Error: No task found for current list.";
             }
             return result.toString();
         }catch(SQLException e){
             e.printStackTrace();
-            return e.getMessage();
+            return "Error: " + e.getMessage();
         }
 
     }

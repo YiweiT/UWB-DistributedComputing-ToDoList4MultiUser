@@ -218,28 +218,36 @@ public class ListServiceDB extends DatabaseConnection{
                 PreparedStatement stmt = connection.prepareStatement(sql);
                 stmt.setString(1,userId);
                 ResultSet rs = stmt.executeQuery();
-                List<Integer> listids = new ArrayList<>();
-                while (rs.next()) {
-                    Array result = rs.getArray(1);
-                    String[] result_2 = (String[]) result.getArray();
-                    if(result_2.length == 0){
+                    boolean deleteSucceed = true;
+                    String deleteMsg = "";
+                    System.out.println("delete all lists");
+                    while (rs.next()) {
+                        Array result = rs.getArray(1);
+                        String[] result_2 = (String[]) result.getArray();
+                        System.out.println( "Result array: "+ result_2.toString());
+                        if (result_2.length == 0) {
 
-                        return String.format("No list under the user (%s).", userId);
+                            System.out.println(String.format("No list under the user (%s).", userId));
+                            return String.format("No list under the user (%s).", userId);
+                        }
+                        int i = 0;
+                        while(i < result_2.length && deleteSucceed) {
+                            deleteMsg = deleteList2(userId,result_2[i]);
+                            System.out.println(deleteMsg);
+                            if (!deleteMsg.contains("Successfully")){
+                                deleteSucceed = false;
+                                return deleteMsg;
+                            }
+                            i ++;
+                        }
                     }
-                    for (String listid : result_2){
-
-                        deleteList2(userId,listid);
-                    }
-                }
-                return String.format("Successfully delete all lists under by %s", userId);
+                    return String.format("Successfully delete all lists under by %s", userId);
             }catch(SQLException e) {
                 return "Error: " + e.getMessage();
             }
-
         } else {
             return "Error: Unable to connect " + url;
         }
-
     }
 
     /**
@@ -311,7 +319,7 @@ public class ListServiceDB extends DatabaseConnection{
                 PreparedStatement statement = connection.prepareStatement(sql1);
                 statement.setString(1, username);
                 statement.setString(2, listname);
-                System.out.println(statement.toString());
+//                System.out.println(statement.toString());
                 ResultSet rs = statement.executeQuery();
                 int cnt = 0;
                 while (rs.next()) {
