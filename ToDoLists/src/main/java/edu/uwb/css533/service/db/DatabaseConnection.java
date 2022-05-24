@@ -34,12 +34,7 @@ public class DatabaseConnection {
             System.out.println(e.getMessage());
             return;
         }
-
         connection = result;
-//        if (this.db.contains("test")) {
-//            dropTestTables();
-//        }
-
 
         autoUpdateModifiedFunc();
         System.out.println("Connected to " + url);
@@ -89,11 +84,7 @@ public class DatabaseConnection {
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            int rows = statement.executeUpdate();
-//            System.out.println(
-//                    "Create or replace update_modified_column function " +
-//                            "and create triggers for Lists and Tasks table");
-
+            statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -171,10 +162,7 @@ public class DatabaseConnection {
                     "DROP TABLE IF EXISTS USERS_INFO;";
             try {
                 PreparedStatement statement = connection.prepareStatement(sql);
-                int rows = statement.executeUpdate();
-
-//                System.out.println("Dropped all tabls in testdb, " + rows);
-
+                statement.executeUpdate();
             } catch (SQLException e) {
                 System.out.println("Error: Failed to drop tables for testdb\n" + e.getMessage());
             }

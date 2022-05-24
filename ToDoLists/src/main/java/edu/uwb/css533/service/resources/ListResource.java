@@ -99,11 +99,9 @@ public class ListResource {
         String msg = "";
         String success = dbConnection.deleteList2(userName,listid);
         if(success.contains("Successfully")){
-//            msg = " list " + listName + " has been deleted for user: " + userName;
             return Response.ok(success).build();
         }
         else{
-//            msg=" Deleting list " +listName + "for user: "+ userName + "has failed";
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(success)
                     .build();

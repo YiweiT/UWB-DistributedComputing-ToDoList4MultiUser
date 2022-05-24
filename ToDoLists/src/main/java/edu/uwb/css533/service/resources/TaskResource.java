@@ -33,12 +33,11 @@ public class TaskResource {
         String msg = databaseConnection.addTask(taskName,taskDescription,listId,userName);
 
         if(msg.contains("Successfully")){
-            String message = " task " + taskName +"of list" + listId + " has been added for user: " + userName;
             System.out.println(msg);
             return Response.ok(msg).build();
         }
         else{
-            String message = " Adding " +taskName +" of  list " +listId + "for user: "+ userName + "has failed";
+            String message = " Adding " +taskName +" of  list " +listId + "for user: "+ userName + " has failed";
             System.out.println(message);
             System.out.println(msg);
             return Response.status(Response.Status.BAD_REQUEST)
@@ -56,13 +55,12 @@ public class TaskResource {
         String msg = "";
         msg = databaseConnection.deleteTask(taskId,listId,userName);
         if(msg.contains("Successfully")){
-            String message=" task (" + taskId +") of list (" + listId + ") has been deleted for user: " + userName;
-            System.out.println(message);
+
+            System.out.println(msg);
             return Response.ok(msg).build();
         }
         else{
-            String message = " Deleting task (" +taskId +") of  list (" +listId + ") for user: "+ userName + " has failed";
-            System.out.println(message);
+            System.out.println(msg);
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(msg)
                     .build();
@@ -74,16 +72,14 @@ public class TaskResource {
     public Response deleteAllTasks(
             @QueryParam("username") String userName,
             @QueryParam("listid") String listId) {
-        String msg = "";
-        msg= databaseConnection.deleteAllTasks(userName,listId);
+
+        String msg= databaseConnection.deleteAllTasks(userName,listId);
         if(msg.contains("Successfully")){
-            String message=" All task of list" + listId + " has been deleted";
-            System.out.println(message);
+            System.out.println(msg);
             return Response.ok(msg).build();
         }
         else{
-            String message=" Deleting all tasks of  list " +listId + "for user: "+ userName + "has failed";
-            System.out.println(message);
+            System.out.println(msg);
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(msg)
                     .build();
@@ -97,7 +93,7 @@ public class TaskResource {
         String msg = "";
         msg= databaseConnection.displayAllTaskNames(userName,listId);
         if(!msg.contains("Error")){
-            System.out.println( " All task of list" + listId + " has been displayed for user: " + userName);
+            System.out.println( "All task of list" + listId + " has been displayed for user: " + userName);
             return Response.ok(msg).build();
         }
         else{
@@ -132,15 +128,11 @@ public class TaskResource {
         String listId = task.getListid();
         String taskContent = task.getContent();
         String taskId = task.getTaskid();
-        System.out.println("*************************************************");
-        System.out.println(task.toString());
         msg= databaseConnection.updateTaskContent(userName,listId,taskContent,taskId);
         if(msg.contains("Successfully")){
-            System.out.println("Update task content to '"+taskContent+"' of task " + taskId +" of list " + listId + " has been added for user: " + userName);
             return Response.ok(msg).build();
         }
         else{
-            System.out.println("Updating task content to '"+taskContent+"' of task " +taskId +" of  list " +listId + "for user: "+ userName + "has failed");
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(msg)
                     .build();
@@ -155,15 +147,11 @@ public class TaskResource {
         String listId = task.getListid();
         String taskStatus = task.getStatus();
         String taskId = task.getTaskid();
-        System.out.println("*************************************************");
-        System.out.println(task.toString());
         msg= databaseConnection.updateTaskStatus(userName,listId,taskStatus,taskId);
         if(msg.contains("Successfully")){
-            System.out.println("Update task status to "+taskStatus+" of task " + taskId +"of list" + listId + " has been added for user: " + userName);
             return Response.ok(msg).build();
         }
         else{
-            System.out.println("Updating task status to "+taskStatus+" of task " +taskId +" of  list " +listId + "for user: "+ userName + "has failed");
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(msg)
                     .build();
