@@ -197,7 +197,6 @@ public class Client {
                 jsonObject.put("taskid", currentTaskId);
                 String request = url + "/tasks/updateTaskContent";
                 System.out.println(request);
-                System.out.println(jsonObject.toString());
                 if (doPut(request, jsonObject.toString()) == 200) {
                     System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "Successfully update task content, do you want to try something else in this task? (Yes/No)" + ConsoleColors.RESET);
                     String response = scanner.nextLine().toLowerCase().trim();
@@ -230,7 +229,6 @@ public class Client {
                 jsonObject.put("status", taskStatus);
                 String request = url + "/tasks/updateTaskStatus";
                 System.out.println(request);
-                System.out.println(jsonObject.toString());
                 if (doPut(request, jsonObject.toString()) == 200) {
                     System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "Successfully update task status, do you want to try something else in this task? (Yes/No)" + ConsoleColors.RESET);
                     String response = scanner.nextLine().toLowerCase().trim();
@@ -496,6 +494,12 @@ public class Client {
             }
 
             case "7" -> {
+                // Show all tasks first before user entering the taskId
+                System.out.println(ConsoleColors.YELLOW_BOLD_BRIGHT + "For your reference, returning all tasks of ToDoList " + currentListId + ConsoleColors.RESET) ;
+                String queryForDisplayAllTasks = String.format("username=%s&listid=%s", curUsername, currentListId);
+                String requestForDisplayAllTasks = url + "/tasks/displayAllTasksNames?" + queryForDisplayAllTasks;
+                doGet(requestForDisplayAllTasks);
+
                 // code for delete a task
                 System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "To delete a task from ToDoList " + currentListId + ", please enter the task id:" + ConsoleColors.RESET);
                 String taskId = scanner.nextLine().trim();
@@ -555,6 +559,12 @@ public class Client {
             }
 
             case "9" -> {
+                // Show all tasks first before user entering the taskId
+                System.out.println(ConsoleColors.YELLOW_BOLD_BRIGHT + "For your reference, returning all tasks of ToDoList " + currentListId + ConsoleColors.RESET) ;
+                String queryForDisplayAllTasks = String.format("username=%s&listid=%s", curUsername, currentListId);
+                String requestForDisplayAllTasks = url + "/tasks/displayAllTasksNames?" + queryForDisplayAllTasks;
+                doGet(requestForDisplayAllTasks);
+
                 //code to enter a specific task
                 System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "Please input the task id you want to enter:" + ConsoleColors.RESET);
                 String taskid = scanner.nextLine().trim();
@@ -665,10 +675,16 @@ public class Client {
             }
 
             case "3" -> {
+                // Help user show all ToDoLists before entering the listid
+                System.out.println(ConsoleColors.YELLOW_BOLD_BRIGHT + "For your reference, here is all your ToDoLists ......" + ConsoleColors.RESET);
+                String query = String.format("username=%s", curUsername);
+                String requestToDisplayAllLists = url + "/lists/getAllLists?" + query;
+                doGet(requestToDisplayAllLists);
+
                 // code for deleteList
                 System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "To delete a ToDoList, please enter the ToDoList id:" + ConsoleColors.RESET);
                 String listId = scanner.nextLine().trim();
-                String query = String.format("username=%s&listid=%s", curUsername, listId);
+                query = String.format("username=%s&listid=%s", curUsername, listId);
                 String request = url + "/lists/deleteList?" + query;
                 System.out.println(request);
                 if (doGet(request) == 200) {
@@ -721,6 +737,12 @@ public class Client {
                 }
             }
             case "5" -> {
+                // Help user show all ToDoLists before entering the listid
+                System.out.println(ConsoleColors.YELLOW_BOLD_BRIGHT + "For your reference, here is all your ToDoLists ......" + ConsoleColors.RESET);
+                String query = String.format("username=%s", curUsername);
+                String requestToDisplayAllLists = url + "/lists/getAllLists?" + query;
+                doGet(requestToDisplayAllLists);
+
                 // code for enterList
                 System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "Please enter the listid you want to enter:" + ConsoleColors.RESET);
                 String listid = scanner.nextLine().trim();
@@ -775,7 +797,6 @@ public class Client {
                     String request = url + "/users/addUser" ;
                     System.out.println(request);
                     String payload = signUp(scanner);
-                    System.out.println(payload);
                     if (doPost2(request, payload) == 200) {
                         loggedIn = true;
                         System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT +
@@ -822,7 +843,7 @@ public class Client {
         System.out.print(ConsoleColors.RED_BOLD_BRIGHT + "Enter username: " + ConsoleColors.RESET);
         username = inputReader.nextLine().trim();
         System.out.print(ConsoleColors.RED_BOLD_BRIGHT + "Enter password: " + ConsoleColors.RESET);
-        password = inputReader.nextLine().trim();
+        password = inputReader.next().trim();
         curUsername = username;
         JSONObject user = new JSONObject();
         user.put("username", username);
@@ -836,18 +857,17 @@ public class Client {
         String oldPassword;
         String newPassword;
 
-        System.out.print(ConsoleColors.RED_BOLD_BRIGHT + "Enter username: " + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "Enter username: " + ConsoleColors.RESET);
         username = inputReader.nextLine().trim();
-        System.out.print(ConsoleColors.RED_BOLD_BRIGHT + "Enter the old password: "+ ConsoleColors.RESET);
+        System.out.println(ConsoleColors.RED_BOLD_BRIGHT + "Enter the old password: "+ ConsoleColors.RESET);
         oldPassword = inputReader.nextLine().trim();
-        System.out.print(ConsoleColors.RED_BOLD_BRIGHT +"Enter the new password: "+ ConsoleColors.RESET);
+        System.out.println(ConsoleColors.RED_BOLD_BRIGHT +"Enter the new password: "+ ConsoleColors.RESET);
         newPassword = inputReader.nextLine().trim();
         JSONObject user = new JSONObject();
         user.put("username", username);
         user.put("oldPassword", oldPassword);
         user.put("newPassword", newPassword);
         return user.toString();
-//        return String.format("username=%s&oldPassword=%s&newPassword=%s");
 
     }
 
@@ -858,7 +878,6 @@ public class Client {
         } catch (IOException e) {
             return false;
         }
-        System.out.println("Valid JSON object or array");
         return true;
     }
 

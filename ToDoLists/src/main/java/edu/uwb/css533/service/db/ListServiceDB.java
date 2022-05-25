@@ -428,7 +428,7 @@ public class ListServiceDB extends DatabaseConnection{
                 statement.setInt(1, Integer.parseInt(listid));
                 int row = statement.executeUpdate();
 
-                System.out.println("delete successfully " + listid);
+                System.out.println("Delete successfully " + listid);
                 return "Successfully deleted " + listid;
             } catch (SQLException e) {
                 System.out.println("Error: " + e.getMessage());
@@ -470,7 +470,6 @@ public class ListServiceDB extends DatabaseConnection{
                     row.put("listname", rs.getString("listname"));
                     result.put(row);
                 }
-                System.out.println(result.toString(2));
                 return result.toString();
             } catch (SQLException e) {
                 System.out.println("Error: " + e.getMessage());

@@ -1,7 +1,15 @@
+edu\uwb\css533\service\resources\RequestObjects\UpdateTaskContent.class
+edu\uwb\css533\service\resources\RequestObjects\ChangePwd.class
+edu\uwb\css533\service\resources\RequestObjects\UpdateTaskStatus.class
+edu\uwb\css533\service\db\TaskServiceDB.class
 edu\uwb\css533\service\resources\ListResource.class
+edu\uwb\css533\service\resources\RequestObjects\AddList.class
 edu\uwb\css533\service\db\UserServiceDB.class
+edu\uwb\css533\service\resources\RequestObjects\User.class
 edu\uwb\css533\service\ToDoListsApplication.class
+edu\uwb\css533\service\resources\TaskResource.class
 edu\uwb\css533\service\ToDoListsConfiguration.class
 edu\uwb\css533\service\resources\UserResources.class
+edu\uwb\css533\service\resources\RequestObjects\AddTask.class
 edu\uwb\css533\service\db\ListServiceDB.class
 edu\uwb\css533\service\db\DatabaseConnection.class

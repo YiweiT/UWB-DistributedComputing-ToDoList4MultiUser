@@ -316,14 +316,12 @@ public class TaskServiceDB extends ListServiceDB {
                 row.put("content", rs.getString("content"));
                 row.put("status", rs.getString("status"));
                 result.put(row);
-
-
             }
             if (result.isEmpty()) {
                 System.out.println("No task found for current list.");
                 return "Error: No task found for current list.";
             }
-            System.out.println(result.toString(2));
+
             return result.toString();
         }catch(SQLException e){
             e.printStackTrace();
@@ -375,7 +373,8 @@ public class TaskServiceDB extends ListServiceDB {
         if(!listUpdate.contains("Successfully")){
             return listUpdate;
         }
-        return "Successfully updated task content:\n "+content+"\nfor task "+task_id;
+        System.out.println("Successfully updated task content for task "+task_id);
+        return "Successfully updated task content for task "+task_id;
     }
 
 
@@ -427,7 +426,8 @@ public class TaskServiceDB extends ListServiceDB {
             return listUpdate;
         }
 
-        return "Successfully updated task status: \""+status+"\" for task "+task_id;
+        System.out.println("Successfully updated task status for task "+task_id);
+        return "Successfully updated task status for task "+task_id;
     }
 
     // Update the last modified date for listid
