@@ -31,7 +31,7 @@ public class ListServiceDB extends DatabaseConnection{
         System.out.println("ListServiceDB constructs");
     }
 
-    // check whether the given listid is exsting in Lists table
+    // check whether the given listid is existing in Lists table
     // return 1 if existing, 0 if not, -1 if error occurs
     private int isExisting(String listid) {
         if (isConnected()) {

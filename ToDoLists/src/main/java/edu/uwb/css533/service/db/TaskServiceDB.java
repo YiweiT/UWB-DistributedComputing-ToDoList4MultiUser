@@ -177,7 +177,7 @@ public class TaskServiceDB extends ListServiceDB {
             return jsonObject.toString();
         }
 
-        jsonObject.put("Message", "Successfully create the task: \"" + task_name+ "\" in current list: "+list_id);
+        jsonObject.put("Message", "Successfully create the task: '" + task_name+ "' in current list: "+list_id);
         jsonObject.put("taskid", taskId);
         String listUpdate = updateListDate(list_id);
         if(!listUpdate.contains("Successfully")){
@@ -356,6 +356,7 @@ public class TaskServiceDB extends ListServiceDB {
             System.out.println("Unable to connect database.");
             return "Unable to connect to database.";
         }
+
         String update_task_status_sql = "UPDATE Tasks SET CONTENT=? WHERE TASKID=?;";
         try{
             PreparedStatement stmt = connection.prepareStatement(update_task_status_sql);
@@ -406,6 +407,7 @@ public class TaskServiceDB extends ListServiceDB {
             System.out.println("Task type can only be Completed, Not Started or In-Progress");
             return "Task type can only be Completed, Not Started or In-Progress";
         }
+
         String update_task_status_sql = "UPDATE Tasks SET STATUS=? WHERE TASKID=?;";
         try{
             PreparedStatement stmt = connection.prepareStatement(update_task_status_sql);

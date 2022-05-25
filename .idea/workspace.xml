@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="20032126-ed27-480f-81ed-717e736a0141" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/ToDoLists/src/main/java/edu/uwb/css533/service/db/TaskServiceDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/src/main/java/edu/uwb/css533/service/db/TaskServiceDB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/ToDoLists-1.0-SNAPSHOT-shaded.jar" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/ToDoLists-1.0-SNAPSHOT-shaded.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/ToDoLists-1.0-SNAPSHOT-sources.jar" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/ToDoLists-1.0-SNAPSHOT-sources.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/ToDoLists-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/ToDoLists-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/classes/edu/uwb/css533/service/db/DatabaseConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/classes/edu/uwb/css533/service/db/DatabaseConnection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/classes/edu/uwb/css533/service/db/ListServiceDB.class" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/classes/edu/uwb/css533/service/db/ListServiceDB.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/classes/edu/uwb/css533/service/db/TaskServiceDB.class" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/classes/edu/uwb/css533/service/db/TaskServiceDB.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/classes/edu/uwb/css533/service/resources/ListResource.class" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/classes/edu/uwb/css533/service/resources/ListResource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/classes/edu/uwb/css533/service/resources/TaskResource.class" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/classes/edu/uwb/css533/service/resources/TaskResource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/original-ToDoLists-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/original-ToDoLists-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/surefire-reports/TEST-edu.uwb.css533.service.db.ListServiceDBTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/surefire-reports/TEST-edu.uwb.css533.service.db.ListServiceDBTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/surefire-reports/TEST-edu.uwb.css533.service.db.TaskServiceDBTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/surefire-reports/TEST-edu.uwb.css533.service.db.TaskServiceDBTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/surefire-reports/TEST-edu.uwb.css533.service.resources.UserResourcesTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/surefire-reports/TEST-edu.uwb.css533.service.resources.UserResourcesTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/surefire-reports/edu.uwb.css533.service.db.ListServiceDBTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/surefire-reports/edu.uwb.css533.service.db.ListServiceDBTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/surefire-reports/edu.uwb.css533.service.db.TaskServiceDBTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/surefire-reports/edu.uwb.css533.service.db.TaskServiceDBTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoLists/target/surefire-reports/edu.uwb.css533.service.resources.UserResourcesTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoLists/target/surefire-reports/edu.uwb.css533.service.resources.UserResourcesTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/7.1.1/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/7.1.1/dependencies-accessors/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/7.1.1/executionHistory/executionHistory.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/7.1.1/executionHistory/executionHistory.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/7.1.1/fileChanges/last-build.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/7.1.1/fileHashes/fileHashes.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/7.1.1/fileHashes/fileHashes.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/7.1.1/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/checksums/checksums.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/checksums/md5-checksums.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/checksums/sha1-checksums.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gradle/vcs-1/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/build/classes/java/main/Client.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/build/libs/client-1.0-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/build/tmp/jar/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/out/production/classes/Client.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/Client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/ConsoleColors.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/Task.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/ToDoList.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Client" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Client" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Client" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../LectureExample/RMI Example/user-client" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+  </component>
+  <component name="RunManager" selected="Gradle.UWB-DistributedComputing-ToDoList4MultiUser [jar]">
+    <configuration name="Client" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Client" />
+      <module name="Client.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UWB-DistributedComputing-ToDoList4MultiUser [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="UWB-DistributedComputing-ToDoList4MultiUser [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Client" />
+      <item itemvalue="Gradle.UWB-DistributedComputing-ToDoList4MultiUser [build]" />
+      <item itemvalue="Gradle.UWB-DistributedComputing-ToDoList4MultiUser [jar]" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.UWB-DistributedComputing-ToDoList4MultiUser [jar]" />
+        <item itemvalue="Gradle.UWB-DistributedComputing-ToDoList4MultiUser [build]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="20032126-ed27-480f-81ed-717e736a0141" name="Changes" comment="" />
+      <created>1653426205797</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1653426205797</updated>
+      <workItem from="1653426208419" duration="2117000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

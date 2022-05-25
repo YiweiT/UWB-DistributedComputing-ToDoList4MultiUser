@@ -41,7 +41,10 @@ public class DatabaseConnection {
     }
 
     public void createTables() {
-        if(isConnected()) {
+        if (connection == null) {
+            connect();
+        }
+        if(connection != null) {
             createUserTable();
             createListTable();
             createTaskTable();
@@ -63,6 +66,7 @@ public class DatabaseConnection {
 
             return false;
         }
+        createTables();
         return true;
 
     }
