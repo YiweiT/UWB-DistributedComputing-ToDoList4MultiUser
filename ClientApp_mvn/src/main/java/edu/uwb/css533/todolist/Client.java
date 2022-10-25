@@ -843,7 +843,7 @@ public class Client {
         System.out.print(ConsoleColors.RED_BOLD_BRIGHT + "Enter username: " + ConsoleColors.RESET);
         username = inputReader.nextLine().trim();
         System.out.print(ConsoleColors.RED_BOLD_BRIGHT + "Enter password: " + ConsoleColors.RESET);
-        password = inputReader.next().trim();
+        password = inputReader.nextLine().trim();
         curUsername = username;
         JSONObject user = new JSONObject();
         user.put("username", username);
